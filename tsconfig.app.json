@@ -24,6 +24,9 @@
     
     "baseUrl": "./",
     "paths": {
+      "@src/*": [
+        "./src/*"
+      ],
       "@components/*": [
         "./src/components/*"
       ],
@@ -54,9 +57,10 @@
       "@hooks/*": [
         "./src/hooks/*"
       ],
-      "@src/*": [
-        "./src/*"
+      "@locales/*": [
+        "./src/locales/*"
       ],
+      
       "@__tests__/*": [
         "__tests__/*"
       ],
