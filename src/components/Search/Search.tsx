@@ -5,8 +5,8 @@ const Search: React.FC = () => {
   return (
     <Container
       mt="5"
-      mb="2"
-      width={{ initial: "90%", md: "100%", lg: "100%", xl: "100%" }}
+      width={{ initial: "93%" }}
+      maxWidth={{ initial: "93%" }}
     >
       <input
         type="text"

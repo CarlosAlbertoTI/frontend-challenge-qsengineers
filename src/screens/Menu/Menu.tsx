@@ -20,18 +20,24 @@ import Collapse from "@components/Collapse/Collapse";
 import ProductCard from "@components/ProductCard/ProductCard";
 import ProductModal from "@components/ProductModal/ProductModal";
 import ContainerFullScreen from "@components/ContainerFullScreen/ContainerFullScreen";
-import axiosInstance from "@src/libs/axios/config";
+import ProductModalContent from "@components/ProductModal/ProductModal/ProductModalContent";
+
+import axiosInstance from "@libs/axios/config";
 
 const MenuScreen: React.FC = () => {
   const [isBasketVisibleOnMobile, setIsBasketVisibleOnMobile] = useState(false);
+  const [
+    showChooseProductCardOnFullScreen,
+    setShowChooseProductCardOnFullScreen,
+  ] = useState(false);
 
   useEffect(() => {
-    const requestToData = async () => {
+    const request = async () => {
       const { data } = await axiosInstance.get("/venue/9");
-      console.log(data);
+      console.info(data);
     };
+    request();
 
-    requestToData();
     return () => {};
   }, []);
 
@@ -48,20 +54,23 @@ const MenuScreen: React.FC = () => {
         >
           <ProductModal />
           <Header />
-          <Box width={{ initial: "100%", md: "70%", xl: "70%" }} m="auto">
+          <Box width={{ initial: "100%", md: "70%" }} m="auto">
             <Search />
             <Flex
               style={{ backgroundColor: "lightgray" }}
               align="start"
               justify="between"
               gap="3"
-              p="5"
+              m={{ initial: "0", md: "6" }}
+              p={{ initial: "0", md: "5" }}
+              mt="2"
             >
               <Box
                 display={{
                   initial: isBasketVisibleOnMobile ? "none" : "inline",
                   md: "inline",
                 }}
+                width={{ initial: "100%", md: "70%", xl: "70%" }}
                 p="5"
                 flexGrow="2"
                 style={{ backgroundColor: "white" }}
@@ -98,7 +107,6 @@ const MenuScreen: React.FC = () => {
                             fallback="A"
                             src="https://preodemo.gumlet.io/usr/venue/7602/section/646fbe4c64a6f.png"
                           />
-
                           <Text>Account</Text>
                         </Flex>
                       </Tabs.Trigger>
@@ -114,6 +122,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={1}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                         <ProductCard
                           title="Burgers"
@@ -121,6 +134,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={0}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                         <ProductCard
                           title="Burgers"
@@ -128,6 +146,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={0}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                         <ProductCard
                           title="Burgers"
@@ -135,6 +158,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={0}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                         <ProductCard
                           title="Burgers"
@@ -142,6 +170,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={0}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                         <ProductCard
                           title="Burgers"
@@ -149,6 +182,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={0}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                         <ProductCard
                           title="Burgers"
@@ -156,6 +194,11 @@ const MenuScreen: React.FC = () => {
                           price="R$ 2.85"
                           productAlreadyChooseAndAmount={0}
                           imageUrl="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                          onPressMobile={() =>
+                            setShowChooseProductCardOnFullScreen(
+                              (prevState) => !prevState
+                            )
+                          }
                         />
                       </Tabs.Content>
                     </Collapse>
@@ -249,31 +292,12 @@ const MenuScreen: React.FC = () => {
       </Box>
       {isBasketVisibleOnMobile && (
         <Box display={{ initial: "inline", md: "none" }}>
-          <ContainerFullScreen>
-            <Flex
-              height="90px"
-              style={{
-                backgroundColor: "lightgrey",
-              }}
-              direction="row"
-              justify="between"
-              align="center"
-            >
-              <Box
-                style={{
-                  width: "50px",
-                }}
-              />
-              <Heading size="7">Basket</Heading>
-              <Box pr="4">
-                <IoIosClose
-                  size="30"
-                  onClick={() =>
-                    setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
-                  }
-                />
-              </Box>
-            </Flex>
+          <ContainerFullScreen
+            titleType={"text"}
+            onCloseContainer={() =>
+              setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
+            }
+          >
             <Separator
               style={{
                 width: "100%",
@@ -283,6 +307,23 @@ const MenuScreen: React.FC = () => {
               mb="4"
             />
             <Basket showTitle={false} showBottomButton />
+          </ContainerFullScreen>
+        </Box>
+      )}
+      {showChooseProductCardOnFullScreen && (
+        <Box display={{ initial: "inline", md: "none" }}>
+          <ContainerFullScreen
+            titleType={"image"}
+            onCloseContainer={() =>
+              setShowChooseProductCardOnFullScreen(
+                !showChooseProductCardOnFullScreen
+              )
+            }
+          >
+            <ProductModalContent
+              productName={"teste"}
+              productDescription={"teste"}
+            />
           </ContainerFullScreen>
         </Box>
       )}

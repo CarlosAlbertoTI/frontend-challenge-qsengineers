@@ -43,8 +43,8 @@ const Header: React.FC = () => {
         </nav>
         <nav className="md:hidden ml-3">
           <DropdownMenu.Root>
-            <DropdownMenu.Trigger className="text-white bg-gray-800 p-2 rounded-md pr-4">
-              <IoMenu />
+            <DropdownMenu.Trigger color="white">
+              <IoMenu size="35"/>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white text-black rounded-md shadow-lg p-3 mr-8">
               <DropdownMenu.Item  className="p-2 hover:bg-gray-200">

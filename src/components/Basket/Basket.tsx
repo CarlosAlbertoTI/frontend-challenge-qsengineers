@@ -18,7 +18,6 @@ interface BasketProps {
 
 const Basket: React.FC<BasketProps> = ({
   showTitle = true,
-  showBottomButton = false,
 }) => {
   const { t } = useTranslation(["Basket"]);
   const data = {
@@ -251,6 +250,7 @@ const Basket: React.FC<BasketProps> = ({
               mb="4"
               pl="5"
               style={{
+                zIndex: 1000,
                 width: "100%",
                 backgroundColor: "gray",
               }}
@@ -374,180 +374,13 @@ const Basket: React.FC<BasketProps> = ({
             </Flex>
           </Box>
         </Flex>
-        {showBottomButton && (
-          <Container
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100px",
-              bottom: 0,
-              left: 0,
-            }}
-          >
-            <Container
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100px",
-                top: 0,
-                left: 0,
-                zIndex: 1,
-              }}
-            >
-              <Box
-                style={{
-                  width: "100%",
-                  height: "100px",
-                  backgroundColor: "#ffffea",
-                  opacity: 1,
-                  filter: "blur(10px)",
-                }}
-              ></Box>
-            </Container>
-
-            <Container
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "50px",
-                top: 0,
-                left: 0,
-                zIndex: 2,
-              }}
-            >
-              <Flex direction="column" justify="center" align="center">
-                <Flex width="90%" justify="center">
-                  <Button
-                    radius="full"
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Checkout now
-                  </Button>
-                </Flex>
-              </Flex>
-            </Container>
-          </Container>
-        )}
       </>
     );
   };
 
   return (
     <>
-      {/* {mobileMode && (
-        <Container
-          size="1"
-          width="100vw"
-          height="100vh !important"
-          position="absolute"
-          top="0"
-        >
-          <BasketComponentContent />
-        </Container>
-      )} */}
-      {/* {!mobileMode && ( */}
-      {/* <Box
-          display={{ initial: mobileMode ? "inline" : "none", md: "inline" }}
-          width={mobileMode ? "100%" : "40%"}
-          minWidth="35%"
-        > */}
       <BasketComponentContent />
-      {/* </Box> */}
-      {/* )} */}
-      {/* <Box
-        display={{ initial: mobileMode ? "inline" : "none", md: "inline" }}
-        width={mobileMode ? "100%" : "40%"}
-        minWidth="35%"
-      >
-        <BasketComponentContent /> */}
-      {/* <Flex
-        flexGrow="1"
-        direction="column"
-        style={{ backgroundColor: "#FFFFFF" }}
-      >
-        <Box
-          height="50px"
-          pt="1"
-          mb="4"
-          pl="5"
-          style={{
-            width: "100%",
-            backgroundColor: "gray",
-          }}
-        >
-          <Text size="4">{t(["basket_title"])}</Text>
-        </Box>
-        <Box pl="5" pr="5" pb="4" flexGrow="1">
-          <Box>
-            <Flex direction="row" justify="between">
-              <Flex direction="column" justify="start" mb="3">
-                <Text size="2" weight="medium">
-                  {data.sections[0].items[0].name}
-                </Text>
-                <Text size="1" weight="regular">
-                  {data.sections[0].items[0].name}
-                </Text>
-              </Flex>
-              <Text size="1" className="text-lg">
-                ${data.sections[0].items[0].price.toFixed(2)}
-              </Text>
-            </Flex>
-            <Flex direction="row" justify="between">
-              <Box>
-                <IconButton size="1" radius="full" variant="soft">
-                  +
-                </IconButton>
-                <Text ml={"2"} mr={"2"}>
-                  1
-                </Text>
-                <IconButton size="1" radius="full" variant="soft">
-                  -
-                </IconButton>
-              </Box>
-              <Text className="text-lg">
-                ${data.sections[0].items[0].price.toFixed(2)}
-              </Text>
-            </Flex>
-            {/* <p className="text-gray-700 text-base">{t(["basket_empty"])}</p> */}
-      {/* </Box> */}
-      {/* </Box> */}
-      {/* <Box>
-          <Flex
-            pl="4"
-            pr="4"
-            pt="3"
-            direction="row"
-            justify="between"
-            align="center"
-            height="50px"
-            style={{
-              width: "100%",
-              backgroundColor: "gray",
-            }}
-          >
-            <Text size="2">{t(["basket_title"])}</Text>
-            <Text size="2">{t(["basket_title"])}</Text>
-          </Flex>
-          <Flex
-            pl="4"
-            pr="4"
-            direction="row"
-            justify="between"
-            align="center"
-            height="50px"
-            style={{
-              width: "100%",
-              backgroundColor: "gray",
-            }}
-          >
-            <Text size="3">{t(["basket_title"])}</Text>
-            <Text size="3">{t(["basket_title"])}</Text>
-          </Flex>
-        </Box> 
-      </Flex> */}
-      {/* </Box> */}
     </>
   );
 };

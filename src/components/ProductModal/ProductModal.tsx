@@ -7,10 +7,10 @@ import {
   Text,
   Button,
   IconButton,
-  ScrollArea,
+  VisuallyHidden,
 } from "@radix-ui/themes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import CustomRadio from "../RadioComponent/Radio";
+import ProductModalContent from "./ProductModal/ProductModalContent";
 
 const ProductModal: React.FC = () => {
   return (
@@ -30,93 +30,23 @@ const ProductModal: React.FC = () => {
           paddingRight: 0,
         }}
       >
-        <Box height="100%" mb="5" pb="0" position="relative">
-          <img
-            src="https://preodemo.gumlet.io/usr/venue/7602/section/646fbe4c64a6f.png"
-            alt="A house in a forest"
-            style={{
-              width: "100%",
-              height: "250px",
-              objectFit: "fill",
-              borderRadius: "var(--radius-2)",
-            }}
-          />
-          <Box mb="120px">
-            <Dialog.Title ml="5" mr="5" mt="50px">
-              Edit profile
-            </Dialog.Title>
-            <Dialog.Description ml="5" mr="5" mb="4">
-              Edit profile
-            </Dialog.Description>
-            <Container
-              width="100%"
-              mb="3"
-              style={{ backgroundColor: "lightgrey" }}
-            >
-              <Flex ml="5" mr="5" direction="column">
-                <Text size="2" weight="medium">
-                  Choose your size
-                </Text>
-                <Text size="2">Select 1 option</Text>
-              </Flex>
-            </Container>
-            <ScrollArea
-              scrollbars="vertical"
-              style={{ height: 150, minWidth: 150 }}
-            >
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-              <CustomRadio
-                title={"Teodros Girmay"}
-                description={"Engineering"}
-              />
-            </ScrollArea>
-          </Box>
+        <ProductModalContent
+          productName={"teste"}
+          productDescription={"test teste"}
+        />
 
-          <Box position="absolute" top="5" right="4">
-            <Dialog.Close>
-              <IoIosCloseCircleOutline
-                size={40}
-                colorProfile={"white"}
-                color="white"
-              />
-            </Dialog.Close>
-          </Box>
+        <Box position="absolute" top="5" right="4">
+          <Dialog.Close>
+            <IoIosCloseCircleOutline
+              size={40}
+              colorProfile={"white"}
+              color="white"
+            />
+          </Dialog.Close>
         </Box>
+        <VisuallyHidden>
+          <Dialog.Title>Edit profile</Dialog.Title>
+        </VisuallyHidden>
         <Container
           style={{
             position: "absolute",

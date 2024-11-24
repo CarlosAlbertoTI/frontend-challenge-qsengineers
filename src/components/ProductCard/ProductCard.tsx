@@ -9,10 +9,20 @@ export interface ProductCardProps {
   imageUrl: string;
   productAlreadyChooseAndAmount: number;
 }
+interface ProductCardMainComponentProps extends ProductCardProps {
+  onPressMobile: () => void;
+}
 
-const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
+const ProductCard = forwardRef<HTMLDivElement, ProductCardMainComponentProps>(
   (
-    { title, description, price, imageUrl, productAlreadyChooseAndAmount },
+    {
+      title,
+      description,
+      price,
+      imageUrl,
+      productAlreadyChooseAndAmount,
+      onPressMobile,
+    },
     ref
   ) => {
     return (
@@ -36,13 +46,15 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             </Box>
           </Dialog.Trigger>
         </Box>
-        <ProductContent
-          title={title}
-          description={description}
-          price={price}
-          imageUrl={imageUrl}
-          productAlreadyChooseAndAmount={productAlreadyChooseAndAmount}
-        />
+        <Box onClick={onPressMobile}>
+          <ProductContent
+            title={title}
+            description={description}
+            price={price}
+            imageUrl={imageUrl}
+            productAlreadyChooseAndAmount={productAlreadyChooseAndAmount}
+          />
+        </Box>
       </Box>
     );
   }
