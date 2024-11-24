@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import { Box, Dialog } from "@radix-ui/themes";
+
 import ProductContent from "./ProductContent/ProductContent";
 
 export interface ProductCardProps {

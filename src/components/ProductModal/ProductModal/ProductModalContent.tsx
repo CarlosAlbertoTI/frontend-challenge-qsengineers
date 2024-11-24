@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Container,
@@ -6,8 +7,8 @@ import {
   ScrollArea,
   Text,
 } from "@radix-ui/themes";
+
 import CustomRadio from "@src/components/RadioComponent/Radio";
-import React from "react";
 
 interface ProductModalContentProps {
   productName: string;

@@ -1,32 +1,36 @@
 import React from "react";
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-} from "@radix-ui/themes";
+import { Box, Container, Flex, Heading } from "@radix-ui/themes";
 import { IoIosClose, IoIosCloseCircleOutline } from "react-icons/io";
 
+import CustomButton from "../CustomButton/CustomButton";
+
 interface ContainerFullScreenProps {
+  title: string;
   titleType: "image" | "text";
+  titleBackgroundColor?: string;
+  backgroundColor?: string;
   onCloseContainer: () => void;
   children: React.ReactNode;
   buttonTitle?: string;
-  bottomActions?: [React.ReactNode];
+  hasActions?: boolean;
+  bottomActions?: JSX.Element[];
   hasBottomButton?: boolean;
   onPressBottomButton?: () => void;
 }
 
 const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
+  title,
   titleType = "text",
   onCloseContainer,
+  titleBackgroundColor = "lightgrey",
+  backgroundColor = "white",
   children,
-  buttonTitle,
+  buttonTitle = "",
+  hasActions = false,
   bottomActions = [],
   hasBottomButton = true,
-  onPressBottomButton,
+  onPressBottomButton = () => {},
 }) => {
   return (
     <Container
@@ -36,7 +40,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
         height: "100vh",
         top: 0,
         zIndex: 10,
-        backgroundColor: "white",
+        backgroundColor: backgroundColor,
       }}
     >
       <Container
@@ -60,7 +64,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
             <Flex
               height="90px"
               style={{
-                backgroundColor: "lightgrey",
+                backgroundColor: titleBackgroundColor,
               }}
               direction="row"
               justify="between"
@@ -71,7 +75,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
                   width: "50px",
                 }}
               />
-              <Heading size="7">Basket</Heading>
+              <Heading size="7">{title}</Heading>
               <Box pr="4">
                 <IoIosClose size="30" onClick={onCloseContainer} />
               </Box>
@@ -81,76 +85,12 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
         {children}
         {hasBottomButton && (
           <>
-            <Container
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100px",
-                bottom: 0,
-                left: 0,
-              }}
-            >
-              <Container
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100px",
-                  top: 0,
-                  left: 0,
-                  zIndex: 1,
-                }}
-              >
-                <Box
-                  style={{
-                    width: "100%",
-                    height: "100px",
-                    backgroundColor: "#ffffea",
-                    opacity: 1,
-                    filter: "blur(10px)",
-                  }}
-                ></Box>
-              </Container>
-
-              <Container
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "50px",
-                  top: 0,
-                  left: 0,
-                  zIndex: 2,
-                }}
-              >
-                <Flex direction="column" justify="center" align="center">
-                  <Flex
-                    mt="2"
-                    mb="2"
-                    direction="row"
-                    justify="center"
-                    align="center"
-                  >
-                    {bottomActions}
-                  </Flex>
-                  <Box
-                    style={{
-                      width: "90%",
-                    }}
-                  >
-                    <Flex justify="center">
-                      <Button
-                        onClick={onPressBottomButton}
-                        radius="full"
-                        style={{
-                          width: "100%",
-                        }}
-                      >
-                        {buttonTitle}
-                      </Button>
-                    </Flex>
-                  </Box>
-                </Flex>
-              </Container>
-            </Container>
+            <CustomButton
+              label={buttonTitle}
+              hasActions={hasActions}
+              Actions={bottomActions}
+              onClick={onPressBottomButton}
+            />
           </>
         )}
       </Container>

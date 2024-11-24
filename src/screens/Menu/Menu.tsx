@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
-  Button,
-  Container,
   Flex,
-  Heading,
+  IconButton,
   ScrollArea,
-  Separator,
   Tabs,
   Text,
 } from "@radix-ui/themes";
-import { IoIosClose } from "react-icons/io";
 
 import Header from "@components/Header/Header";
 import Search from "@components/Search/Search";
@@ -21,8 +17,27 @@ import ProductCard from "@components/ProductCard/ProductCard";
 import ProductModal from "@components/ProductModal/ProductModal";
 import ContainerFullScreen from "@components/ContainerFullScreen/ContainerFullScreen";
 import ProductModalContent from "@components/ProductModal/ProductModal/ProductModalContent";
+import CustomButton from "@components/CustomButton/CustomButton";
 
 import axiosInstance from "@libs/axios/config";
+
+const BottomActions: React.FC = () => (
+  <>
+    <Flex mt="2" mb="2" direction="row" justify="center" align="center">
+      <Box>
+        <IconButton size="2" mr="3" radius="full" variant="soft">
+          -
+        </IconButton>
+        <Text ml={"2"} mr={"2"} mb="-4">
+          1
+        </Text>
+        <IconButton size="2" ml="3" radius="full" variant="soft">
+          +
+        </IconButton>
+      </Box>
+    </Flex>
+  </>
+);
 
 const MenuScreen: React.FC = () => {
   const [isBasketVisibleOnMobile, setIsBasketVisibleOnMobile] = useState(false);
@@ -226,86 +241,23 @@ const MenuScreen: React.FC = () => {
           md: "none",
         }}
       >
-        <Container
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "50px",
-            bottom: 2,
-            left: 0,
-          }}
-        >
-          <Container
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "25px",
-              bottom: 0,
-              left: 0,
-              zIndex: 1,
-            }}
-          >
-            <Box
-              style={{
-                width: "100%",
-                height: "50px",
-                backgroundColor: "#ffffea",
-                opacity: 1,
-                filter: "blur(10px)",
-              }}
-            ></Box>
-          </Container>
-
-          <Container
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "50px",
-              top: 0,
-              left: 0,
-              zIndex: 2,
-            }}
-          >
-            <Flex direction="column" justify="center" align="center">
-              <Box
-                style={{
-                  width: "90%",
-                }}
-              >
-                <Flex justify="center">
-                  <Button
-                    onClick={() =>
-                      setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
-                    }
-                    radius="full"
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Your Basket - 1 item
-                  </Button>
-                </Flex>
-              </Box>
-            </Flex>
-          </Container>
-        </Container>
+        <CustomButton
+          label={"Your Basket - 1 Item"}
+          hasBlur
+          onClick={() => setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)}
+        />
       </Box>
       {isBasketVisibleOnMobile && (
         <Box display={{ initial: "inline", md: "none" }}>
           <ContainerFullScreen
+            title="Basket"
             titleType={"text"}
             onCloseContainer={() =>
               setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
             }
+            backgroundColor="#F8F9FA"
+            buttonTitle="Checkout Now"
           >
-            <Separator
-              style={{
-                width: "100%",
-                height: "2px",
-                backgroundColor: "lightgrey",
-              }}
-              mb="4"
-            />
             <Basket showTitle={false} showBottomButton />
           </ContainerFullScreen>
         </Box>
@@ -313,12 +265,11 @@ const MenuScreen: React.FC = () => {
       {showChooseProductCardOnFullScreen && (
         <Box display={{ initial: "inline", md: "none" }}>
           <ContainerFullScreen
+            title="Choose your size"
             titleType={"image"}
-            onCloseContainer={() =>
-              setShowChooseProductCardOnFullScreen(
-                !showChooseProductCardOnFullScreen
-              )
-            }
+            onCloseContainer={() =>setShowChooseProductCardOnFullScreen(!showChooseProductCardOnFullScreen)}
+            hasActions
+            bottomActions={[<BottomActions />]}
           >
             <ProductModalContent
               productName={"teste"}

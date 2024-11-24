@@ -3,14 +3,16 @@ import {
   Box,
   Container,
   Flex,
-  IconButton,
-  Text,
   Button,
 } from "@radix-ui/themes";
 
 interface CustomButtonProps {
   label: string;
   onClick: () => void;
+  height?: string;
+  blurColor?: string;
+  hasActions?: boolean;
+  Actions?: JSX.Element[];
   disabled?: boolean;
   hasBlur?: boolean;
 }
@@ -18,7 +20,11 @@ interface CustomButtonProps {
 const CustomButton: React.FC<CustomButtonProps> = ({
   label,
   onClick,
+  height = "95px",
   disabled,
+  blurColor = "#eee",
+  hasActions = false,
+  Actions = [],
   hasBlur,
 }) => {
   return (
@@ -46,7 +52,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             style={{
               width: "100%",
               height: "100px",
-              backgroundColor: "#ffffea",
+              backgroundColor: blurColor,
               opacity: 1,
               filter: "blur(10px)",
             }}
@@ -57,26 +63,20 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         style={{
           position: "absolute",
           width: "100%",
-          height: "50px",
-          top: 0,
+          height: height,
+          bottom: "10px",
           left: 0,
           zIndex: 2,
         }}
       >
         <Flex direction="column" justify="center" align="center">
-          <Flex mt="2" mb="2" direction="row" justify="center" align="center">
-            <Box>
-              <IconButton size="2" mr="3" radius="full" variant="soft">
-                -
-              </IconButton>
-              <Text ml={"2"} mr={"2"} mb="-4">
-                1
-              </Text>
-              <IconButton size="2" ml="3" radius="full" variant="soft">
-                +
-              </IconButton>
-            </Box>
-          </Flex>
+          {hasActions && (
+            <>
+              {Actions.map((Action, index) => (
+                <React.Fragment key={index}>{Action}</React.Fragment>
+              ))}
+            </>
+          )}
           <Box
             style={{
               width: "90%",
@@ -84,7 +84,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
           >
             <Flex justify="center">
               <Button
-              onClick={onClick}
+                onClick={onClick}
                 disabled={disabled}
                 radius="full"
                 style={{
