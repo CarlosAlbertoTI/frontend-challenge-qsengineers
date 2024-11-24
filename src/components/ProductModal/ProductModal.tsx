@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Dialog,
-  VisuallyHidden,
-} from "@radix-ui/themes";
+import { Box, Dialog, VisuallyHidden } from "@radix-ui/themes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 import CustomButtom from "../CustomButton/CustomButton";
@@ -20,8 +16,9 @@ const ProductModal: React.FC = () => {
       <Dialog.Content
         height="100%"
         maxWidth="100%"
-        width={{ initial: "100%", md: "70%" }}
+        width={{ initial: "100%", md: "40%" }}
         style={{
+          borderRadius: 0,
           paddingTop: 0,
           paddingLeft: 0,
           paddingRight: 0,
@@ -44,7 +41,12 @@ const ProductModal: React.FC = () => {
         <VisuallyHidden>
           <Dialog.Title>Edit profile</Dialog.Title>
         </VisuallyHidden>
-        <CustomButtom label={"Teste"} height="55px" hasBlur onClick={() => {}} />
+        <CustomButtom
+          label={"Teste"}
+          height="55px"
+          hasBlur
+          onClick={() => {}}
+        />
       </Dialog.Content>
     </Box>
   );

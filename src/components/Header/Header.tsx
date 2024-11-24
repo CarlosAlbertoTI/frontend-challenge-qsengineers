@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const { t } = useTranslation(["Header"]);
   return (
     <>
-      <Flex className="bg-gray-800 text-white p-4 flex flex-row-reverse">
+      <Flex style={{backgroundColor:"#4F372F"}} className=" text-white p-4 flex flex-row-reverse">
         <nav className="container mx-auto flex justify-center items-center hidden md:flex">
           <ul className="flex space-x-10">
             <li className="w-32 relative group text-lg">
@@ -44,10 +44,10 @@ const Header: React.FC = () => {
         <nav className="md:hidden ml-3">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger color="white">
-              <IoMenu size="35"/>
+              <IoMenu size="35" />
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white text-black rounded-md shadow-lg p-3 mr-8">
-              <DropdownMenu.Item  className="p-2 hover:bg-gray-200">
+              <DropdownMenu.Item className="p-2 hover:bg-gray-200">
                 {t("header_menu")}
               </DropdownMenu.Item>
               <DropdownMenu.Item className="p-2 hover:bg-gray-200">
@@ -64,6 +64,7 @@ const Header: React.FC = () => {
         </div>
       </Flex>
       <img
+        style={{ borderBottom: "5px solid white" }}
         src="https://preodemo.gumlet.io/usr/venue/7602/web/646fbf3abf9d0.png"
         alt="Example"
         className="w-full object-cover h-8 min-h-32 min-w-20"

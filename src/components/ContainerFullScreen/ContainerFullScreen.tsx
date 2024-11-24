@@ -67,6 +67,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
               height="90px"
               style={{
                 backgroundColor: titleBackgroundColor,
+                boxShadow:"0px 2px 14px rgba(0, 0, 0, 0.9)",
               }}
               direction="row"
               justify="between"

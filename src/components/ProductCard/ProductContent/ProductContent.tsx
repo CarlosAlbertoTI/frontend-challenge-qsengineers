@@ -17,25 +17,44 @@ const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
                   mr="3"
                   radius="medium"
                   style={{
-                    backgroundColor: "gray",
+                    backgroundColor: "#4F372F",
+                    color: "#fff",
                   }}
                 >
                   {props.productAlreadyChooseAndAmount}
                 </IconButton>
               )}
-              <Text as="div" size="4" weight="bold" wrap="wrap">
+
+              <Text
+                style={{ color: "#121212" }}
+                as="div"
+                size="4"
+                weight="bold"
+                wrap="wrap"
+              >
                 {props.title}
               </Text>
             </Flex>
-            <Text as="div" weight="light" size="3" wrap="wrap">
+            <Text
+              style={{ color: "#464646" }}
+              as="div"
+              weight="light"
+              size="3"
+              wrap="wrap"
+            >
               {props.description}
             </Text>
-            <Text as="div" weight="medium" size="3">
+            <Text
+              style={{ color: "#464646" }}
+              as="div"
+              weight="medium"
+              size="3"
+            >
               {props.price}
             </Text>
           </Box>
-          <Box m="-3">
-            <Avatar size="8" src={props.imageUrl} radius="none" fallback="T" />
+          <Box >
+            <Avatar size="7" src={props.imageUrl} radius="small" fallback="T" />
           </Box>
         </Flex>
       </Box>

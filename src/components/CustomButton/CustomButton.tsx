@@ -78,6 +78,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             </>
           )}
           <Box
+          mt="3"
             style={{
               width: "90%",
             }}
@@ -89,6 +90,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
                 radius="full"
                 style={{
                   width: "100%",
+                  backgroundColor:"#4F372F"
                 }}
               >
                 {label}

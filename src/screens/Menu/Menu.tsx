@@ -1,43 +1,18 @@
+import { Avatar, Box, Flex, ScrollArea, Tabs, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Flex,
-  IconButton,
-  ScrollArea,
-  Tabs,
-  Text,
-} from "@radix-ui/themes";
 
-import Header from "@components/Header/Header";
-import Search from "@components/Search/Search";
 import Basket from "@components/Basket/Basket";
 import Collapse from "@components/Collapse/Collapse";
+import ContainerFullScreen from "@components/ContainerFullScreen/ContainerFullScreen";
+import CustomButton from "@components/CustomButton/CustomButton";
+import Header from "@components/Header/Header";
 import ProductCard from "@components/ProductCard/ProductCard";
 import ProductModal from "@components/ProductModal/ProductModal";
-import ContainerFullScreen from "@components/ContainerFullScreen/ContainerFullScreen";
 import ProductModalContent from "@components/ProductModal/ProductModal/ProductModalContent";
-import CustomButton from "@components/CustomButton/CustomButton";
+import Search from "@components/Search/Search";
 
 import axiosInstance from "@libs/axios/config";
-
-const BottomActions: React.FC = () => (
-  <>
-    <Flex mt="2" mb="2" direction="row" justify="center" align="center">
-      <Box>
-        <IconButton size="2" mr="3" radius="full" variant="soft">
-          -
-        </IconButton>
-        <Text ml={"2"} mr={"2"} mb="-4">
-          1
-        </Text>
-        <IconButton size="2" ml="3" radius="full" variant="soft">
-          +
-        </IconButton>
-      </Box>
-    </Flex>
-  </>
-);
+import MinusOrAdd from "@src/components/MinusOrAdd/MinusOrAdd";
 
 const MenuScreen: React.FC = () => {
   const [isBasketVisibleOnMobile, setIsBasketVisibleOnMobile] = useState(false);
@@ -64,7 +39,7 @@ const MenuScreen: React.FC = () => {
         }}
       >
         <Box
-          style={{ backgroundColor: "#ffffff", overflow: "scroll" }}
+          style={{ backgroundColor: "#EEEEEE", overflow: "scroll" }}
           position="relative"
         >
           <ProductModal />
@@ -72,7 +47,7 @@ const MenuScreen: React.FC = () => {
           <Box width={{ initial: "100%", md: "70%" }} m="auto">
             <Search />
             <Flex
-              style={{ backgroundColor: "lightgray" }}
+              style={{ backgroundColor: "#F8F9FA" }}
               align="start"
               justify="between"
               gap="3"
@@ -88,14 +63,17 @@ const MenuScreen: React.FC = () => {
                 width={{ initial: "100%", md: "70%", xl: "70%" }}
                 p="5"
                 flexGrow="2"
-                style={{ backgroundColor: "white" }}
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.1)",
+                }}
               >
                 <Tabs.Root defaultValue="account">
                   <ScrollArea
                     scrollbars="horizontal"
                     style={{ height: 150, minWidth: 150 }}
                   >
-                    <Tabs.List>
+                    <Tabs.List color="gray" size="2">
                       <Tabs.Trigger
                         style={{
                           marginLeft: 10,
@@ -110,7 +88,7 @@ const MenuScreen: React.FC = () => {
                           justify="between"
                           align="center"
                           style={{
-                            height: "100px",
+                            height: "140px",
                           }}
                         >
                           <Avatar
@@ -122,7 +100,9 @@ const MenuScreen: React.FC = () => {
                             fallback="A"
                             src="https://preodemo.gumlet.io/usr/venue/7602/section/646fbe4c64a6f.png"
                           />
-                          <Text>Account</Text>
+                          <Text mt="5" mb="3" style={{ color: "#121212" }}>
+                            Account
+                          </Text>
                         </Flex>
                       </Tabs.Trigger>
                     </Tabs.List>
@@ -253,9 +233,11 @@ const MenuScreen: React.FC = () => {
           <ContainerFullScreen
             title="Basket"
             titleType={"text"}
+            
             onCloseContainer={() =>
               setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
             }
+            titleBackgroundColor="#fff"
             backgroundColor="#F8F9FA"
             buttonTitle="Checkout Now"
           >
@@ -268,10 +250,26 @@ const MenuScreen: React.FC = () => {
           <ContainerFullScreen
             title="Choose your size"
             titleType={"image"}
-            onCloseContainer={() =>setShowChooseProductCardOnFullScreen(!showChooseProductCardOnFullScreen)}
+            onCloseContainer={() =>
+              setShowChooseProductCardOnFullScreen(
+                !showChooseProductCardOnFullScreen
+              )
+            }
+            buttonTitle="Add to Order • R$11.75"
             hasActions
-            bottomActions={[<BottomActions />]}
-            buttonHeight="90px"
+            bottomActions={[
+              <MinusOrAdd
+                width="150px"
+                sizeIcon={35}
+                sizeText="25px"
+                amountProduct={1}
+                colorOfMinusIcon="#DADADA"
+                onPlusChangeAmountProduct={() => {}}
+                onMinusChangeAmountProduct={() => {}}
+                type={"row"}
+              />,
+            ]}
+            buttonHeight="100px"
           >
             <ProductModalContent
               productName={"teste"}

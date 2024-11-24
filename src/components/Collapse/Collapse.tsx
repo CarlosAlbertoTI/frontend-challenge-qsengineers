@@ -29,9 +29,9 @@ const Collapse: React.FC<CollapseProps> = ({ title, children }) => {
         >
           <Heading size="3">{title}</Heading>
           {isOpen ? (
-            <FaAngleUp size={20} color="black" />
+            <FaAngleUp size={20} color="#4F372F" />
           ) : (
-            <FaAngleDown size={20} color="black" />
+            <FaAngleDown size={20} color="#4F372F" />
           )}
         </Flex>
       </Flex>

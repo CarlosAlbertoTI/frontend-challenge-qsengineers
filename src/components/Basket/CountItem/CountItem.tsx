@@ -1,11 +1,15 @@
-import { Box, Flex, IconButton, Text } from "@radix-ui/themes";
 import React from "react";
+import { Box, Flex, Text } from "@radix-ui/themes";
+
+import MinusOrAdd from "@components/MinusOrAdd/MinusOrAdd";
 
 interface CountItemProps {
   productName: string;
   productInfo: string;
   productPrice: number;
   amountProduct: number;
+  colorOfPlusIcon?: string;
+  colorOfMinusIcon?: string;
   onPlusChangeAmountProduct: () => void;
   onMinusChangeAmountProduct: () => void;
 }
@@ -15,6 +19,8 @@ const CountItem: React.FC<CountItemProps> = ({
   productInfo,
   productPrice,
   amountProduct = 0,
+  colorOfPlusIcon = "#4F372F",
+  colorOfMinusIcon = "#4F372F",
   onPlusChangeAmountProduct,
   onMinusChangeAmountProduct,
 }) => {
@@ -23,39 +29,40 @@ const CountItem: React.FC<CountItemProps> = ({
       <Box>
         <Flex direction="row" justify="between">
           <Flex direction="column" justify="start" mb="3">
-            <Text size="2" weight="medium">
+            <Text
+              style={{
+                color: "#121212",
+              }}
+              size="2"
+              weight="medium"
+            >
               {productName}
             </Text>
-            <Text size="1" weight="regular">
+            <Text
+              style={{
+                color: "#5F5F5F",
+              }}
+              size="1"
+              weight="regular"
+            >
               {productInfo}
             </Text>
           </Flex>
-          <Text size="1" className="text-lg">
+          <Text size="2" weight="bold" className="text-lg">
             ${productPrice}
           </Text>
         </Flex>
-        <Flex direction="row" justify="between">
-          <Box>
-            <IconButton
-              size="1"
-              radius="full"
-              variant="soft"
-              onClick={onPlusChangeAmountProduct}
-            >
-              +
-            </IconButton>
-            <Text ml={"2"} mr={"2"}>
-              {amountProduct}
-            </Text>
-            <IconButton
-              size="1"
-              radius="full"
-              variant="soft"
-              onClick={onMinusChangeAmountProduct}
-            >
-              -
-            </IconButton>
-          </Box>
+
+        <Flex ml="2" mt="-2" justify="between">
+          <MinusOrAdd
+            width="70px"
+            colorOfMinusIcon={colorOfMinusIcon}
+            colorOfPlusIcon={colorOfPlusIcon}
+            amountProduct={amountProduct}
+            onPlusChangeAmountProduct={onMinusChangeAmountProduct}
+            onMinusChangeAmountProduct={onPlusChangeAmountProduct}
+            type={"row"}
+          />
         </Flex>
       </Box>
     </Box>

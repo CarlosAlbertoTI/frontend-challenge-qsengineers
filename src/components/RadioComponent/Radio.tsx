@@ -21,7 +21,7 @@ const CustomRadio: React.FC<ProductCardProps> = ({ title, description }) => {
           </Text>
         </Box>
         <Box flexGrow="0">
-          <Radio ref={ref} variant="surface" name="surface" value={"0"} />
+          <Radio color="gray" size="2" ref={ref} variant="surface" name="surface" value={"0"} />
         </Box>
       </Flex>
     </Box>
