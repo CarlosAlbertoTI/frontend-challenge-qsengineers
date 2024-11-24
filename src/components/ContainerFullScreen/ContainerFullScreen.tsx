@@ -4,6 +4,7 @@ import { Box, Container, Flex, Heading } from "@radix-ui/themes";
 import { IoIosClose, IoIosCloseCircleOutline } from "react-icons/io";
 
 import CustomButton from "../CustomButton/CustomButton";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 interface ContainerFullScreenProps {
   title: string;
@@ -53,7 +54,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
         {titleType === "image" && (
           <>
             <Box position="absolute" style={{ zIndex: 10 }} top="5" right="4">
-              <IoIosCloseCircleOutline
+              <IoCloseCircleSharp
                 onClick={onCloseContainer}
                 size={40}
                 color="white"
@@ -80,7 +81,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
               />
               <Heading size="7">{title}</Heading>
               <Box pr="4">
-                <IoIosClose size="30" onClick={onCloseContainer} />
+                <IoCloseCircleSharp size="30" onClick={onCloseContainer} />
               </Box>
             </Flex>
           </>

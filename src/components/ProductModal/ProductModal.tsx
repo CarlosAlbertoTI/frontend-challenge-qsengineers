@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Dialog, VisuallyHidden } from "@radix-ui/themes";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
-import CustomButtom from "../CustomButton/CustomButton";
+
 import ProductModalContent from "./ProductModal/ProductModalContent";
+import CustomButtom from "../CustomButton/CustomButton";
 
 const ProductModal: React.FC = () => {
   return (
@@ -31,7 +32,7 @@ const ProductModal: React.FC = () => {
 
         <Box position="absolute" top="5" right="4">
           <Dialog.Close>
-            <IoIosCloseCircleOutline
+            <IoCloseCircleSharp
               size={40}
               colorProfile={"white"}
               color="white"
