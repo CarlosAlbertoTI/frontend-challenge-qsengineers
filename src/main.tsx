@@ -1,10 +1,24 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { Dialog, Theme } from "@radix-ui/themes";
 
-createRoot(document.getElementById('root')!).render(
+import "./index.css";
+import "@radix-ui/themes/styles.css";
+
+import "@locales/config.ts";
+
+import MenuScreen from "@screens/Menu/Menu.tsx";
+
+import { AppSettingsProvider } from "@contexts/AppSettings/AppSettingsProvider";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <Theme>
+      <AppSettingsProvider>
+        <Dialog.Root>
+          <MenuScreen />
+        </Dialog.Root>
+      </AppSettingsProvider>
+    </Theme>
+  </StrictMode>
+);

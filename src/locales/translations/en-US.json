@@ -5,12 +5,12 @@
     "header_contact": "Contato"
   },
   "HomePage": {
-    "home_page_search": "Pesquisar os itens do menu...",
-    "Basket": {
-      "basket_title": "Carrinho",
-      "basket_empty": "Seu carrinho está vazio",
-      "basket_total": "Total"
-    }
+    "home_page_search": "Pesquisar os itens do menu..."
+  },
+  "Basket": {
+    "basket_title": "Carrinho",
+    "basket_empty": "Seu carrinho está vazio",
+    "basket_total": "Total"
   },
   "ProductModal": {
     "product_select_choices": "Escolha uma opção"
