@@ -14,6 +14,7 @@ interface ContainerFullScreenProps {
   children: React.ReactNode;
   buttonTitle?: string;
   hasActions?: boolean;
+  buttonHeight?: string;
   bottomActions?: JSX.Element[];
   hasBottomButton?: boolean;
   onPressBottomButton?: () => void;
@@ -27,6 +28,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
   backgroundColor = "white",
   children,
   buttonTitle = "",
+  buttonHeight = "55px",
   hasActions = false,
   bottomActions = [],
   hasBottomButton = true,
@@ -86,6 +88,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
         {hasBottomButton && (
           <>
             <CustomButton
+              height={buttonHeight}
               label={buttonTitle}
               hasActions={hasActions}
               Actions={bottomActions}

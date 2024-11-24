@@ -244,6 +244,7 @@ const MenuScreen: React.FC = () => {
         <CustomButton
           label={"Your Basket - 1 Item"}
           hasBlur
+          height="55px"
           onClick={() => setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)}
         />
       </Box>
@@ -270,6 +271,7 @@ const MenuScreen: React.FC = () => {
             onCloseContainer={() =>setShowChooseProductCardOnFullScreen(!showChooseProductCardOnFullScreen)}
             hasActions
             bottomActions={[<BottomActions />]}
+            buttonHeight="90px"
           >
             <ProductModalContent
               productName={"teste"}
