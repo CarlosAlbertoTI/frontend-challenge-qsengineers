@@ -1,10 +1,9 @@
 import React from "react";
-
+import { IoCloseCircleSharp } from "react-icons/io5";
 import { Box, Container, Flex, Heading } from "@radix-ui/themes";
-import { IoIosClose, IoIosCloseCircleOutline } from "react-icons/io";
+
 
 import CustomButton from "../CustomButton/CustomButton";
-import { IoCloseCircleSharp } from "react-icons/io5";
 
 interface ContainerFullScreenProps {
   title: string;

@@ -8,7 +8,7 @@ import {
   Text,
 } from "@radix-ui/themes";
 
-import CustomRadio from "@src/components/RadioComponent/Radio";
+import CustomRadio from "@components/RadioComponent/Radio";
 
 interface ProductModalContentProps {
   productName: string;
