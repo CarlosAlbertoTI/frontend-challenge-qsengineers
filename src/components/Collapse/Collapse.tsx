@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Flex, Heading } from "@radix-ui/themes";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+
+import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
 
 interface CollapseProps {
   title: string;
@@ -9,6 +11,9 @@ interface CollapseProps {
 
 const Collapse: React.FC<CollapseProps> = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const { setting } = useContext(AppSettingsContext);
+  const { webSettings } = setting;
 
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
@@ -29,9 +34,9 @@ const Collapse: React.FC<CollapseProps> = ({ title, children }) => {
         >
           <Heading size="3">{title}</Heading>
           {isOpen ? (
-            <FaAngleUp size={20} color="#4F372F" />
+            <FaAngleUp size={20} color={webSettings.primaryColour} />
           ) : (
-            <FaAngleDown size={20} color="#4F372F" />
+            <FaAngleDown size={20} color={webSettings.primaryColour} />
           )}
         </Flex>
       </Flex>

@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useEffect } from "react";
 
 interface WebSettings {
   id: number;
@@ -42,6 +42,8 @@ export const AppSettingsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [settings, setSettings] = useState<AppSettingProps | {}>({});
+
+  useEffect(() => {}, [settings]);
 
   return (
     <AppSettingsContext.Provider

@@ -1,11 +1,11 @@
 {
   "Header": {
     "header_menu": "Menu",
-    "header_login": "Entrar",
-    "header_contact": "Contato"
+    "header_login": "Login",
+    "header_contact": "Contact"
   },
   "HomePage": {
-    "home_page_search": "Pesquisar os itens do menu..."
+    "home_page_search": "Search item on menu..."
   },
   "Basket": {
     "basket_title": "Carrinho",

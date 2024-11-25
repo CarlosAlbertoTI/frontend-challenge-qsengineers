@@ -1,10 +1,6 @@
-import React from "react";
-import {
-  Box,
-  Container,
-  Flex,
-  Button,
-} from "@radix-ui/themes";
+import React, { useContext } from "react";
+import { Box, Container, Flex, Button } from "@radix-ui/themes";
+import { AppSettingsContext } from "@src/contexts/AppSettings/AppSettingsProvider";
 
 interface CustomButtonProps {
   label: string;
@@ -27,6 +23,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   Actions = [],
   hasBlur,
 }) => {
+  const { setting } = useContext(AppSettingsContext);
+  const { webSettings } = setting;
   return (
     <Container
       style={{
@@ -78,7 +76,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             </>
           )}
           <Box
-          mt="3"
+            mt="3"
             style={{
               width: "90%",
             }}
@@ -90,7 +88,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
                 radius="full"
                 style={{
                   width: "100%",
-                  backgroundColor:"#4F372F"
+                  backgroundColor: webSettings.primaryColour,
                 }}
               >
                 {label}

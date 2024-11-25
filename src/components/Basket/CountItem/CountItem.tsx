@@ -19,8 +19,8 @@ const CountItem: React.FC<CountItemProps> = ({
   productInfo,
   productPrice,
   amountProduct = 0,
-  colorOfPlusIcon = "#4F372F",
-  colorOfMinusIcon = "#4F372F",
+  colorOfPlusIcon ,
+  colorOfMinusIcon ,
   onPlusChangeAmountProduct,
   onMinusChangeAmountProduct,
 }) => {

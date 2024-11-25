@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { IoMenu } from "react-icons/io5";
 import { Flex, Heading } from "@radix-ui/themes";
 
 import { useTranslation } from "@hooks/useTranslation";
+import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
 
 const Header: React.FC = () => {
   const { t } = useTranslation(["Header"]);
+
+  const { setting } = useContext(AppSettingsContext);
+  const { webSettings } = setting;
+  const { bannerImage, navBackgroundColour } = webSettings;
   return (
     <>
-      <Flex style={{backgroundColor:"#4F372F"}} className=" text-white p-4 flex flex-row-reverse">
+      <Flex
+        style={{ backgroundColor: navBackgroundColour }}
+        className=" text-white p-4 flex flex-row-reverse"
+      >
         <nav className="container mx-auto flex justify-center items-center hidden md:flex">
           <ul className="flex space-x-10">
             <li className="w-32 relative group text-lg">
@@ -65,7 +73,7 @@ const Header: React.FC = () => {
       </Flex>
       <img
         style={{ borderBottom: "5px solid white" }}
-        src="https://preodemo.gumlet.io/usr/venue/7602/web/646fbf3abf9d0.png"
+        src={bannerImage}
         alt="Example"
         className="w-full object-cover h-8 min-h-32 min-w-20"
       />

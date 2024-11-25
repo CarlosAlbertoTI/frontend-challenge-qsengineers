@@ -6,7 +6,7 @@ import ProductContent from "./ProductContent/ProductContent";
 export interface ProductCardProps {
   title: string;
   description: string;
-  price: string;
+  price: number;
   imageUrl: string;
   productAlreadyChooseAndAmount: number;
 }
