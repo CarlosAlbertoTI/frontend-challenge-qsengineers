@@ -1,8 +1,8 @@
 {
   "Header": {
     "header_menu": "Menu",
-    "header_login": "Login",
-    "header_contact": "Contact"
+    "header_login": "Entrar",
+    "header_contact": "Contato"
   },
   "HomePage": {
     "home_page_search": "Search item on menu..."
@@ -10,7 +10,8 @@
   "Basket": {
     "basket_title": "Carrinho",
     "basket_empty": "Seu carrinho está vazio",
-    "basket_total": "Total"
+    "basket_total": "Total",
+    "basket_sub_total": "Sub total"
   },
   "ProductModal": {
     "product_select_choices": "Escolha uma opção"

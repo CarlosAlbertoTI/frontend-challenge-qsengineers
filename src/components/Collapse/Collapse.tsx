@@ -20,7 +20,7 @@ const Collapse: React.FC<CollapseProps> = ({ title, children }) => {
   };
 
   return (
-    <Box>
+    <Box mt="2" minHeight={{initial:"80px"}}>
       <Flex direction="row" justify="between">
         <Flex
           width="100%"

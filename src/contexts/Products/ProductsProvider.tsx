@@ -1,13 +1,17 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode } from "react";
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   price: number;
   description: string;
   availabilityType: string;
   available: boolean;
-  images: { url: string }[];
+  modifiers?: [];
+  images: {
+    image: string;
+    url: string;
+  }[];
   position: number;
   sku: string;
   alcoholic: boolean;
@@ -21,7 +25,7 @@ interface ProductResponse {
   type: string;
 }
 
-interface Section {
+export interface Section {
   id: number;
   name: string;
   position: number;
@@ -57,12 +61,4 @@ export const ProductsProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </ProductsContext.Provider>
   );
-};
-
-export const useProducts = (): ProductsContextProps => {
-  const context = useContext(ProductsContext);
-  if (!context) {
-    throw new Error("useProducts must be used within a ProductsProvider");
-  }
-  return context;
 };

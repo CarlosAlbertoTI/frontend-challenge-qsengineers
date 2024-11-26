@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Container,
@@ -10,76 +10,125 @@ import {
 
 import CustomRadio from "@components/RadioComponent/Radio";
 
-interface ProductModalContentProps {
-  productName: string;
-  productDescription: string;
-}
+import { ProductSelectedContext } from "@contexts/ProductSelected/ProductSelected";
+import { CiImageOff } from "react-icons/ci";
 
-const ProductModalContent: React.FC<ProductModalContentProps> = ({
-  productName,
-  productDescription,
-}) => {
+const ProductModalContent: React.FC = () => {
+  const { selectedProduct } = useContext(ProductSelectedContext);
+
+  const checkIfThereAreProductModifiers =
+    selectedProduct.modifiers && selectedProduct.modifiers.length > 0;
+
   return (
     <Box
       style={{
         backgroundColor: "white",
       }}
       height="100%"
-      mb="5"
       pb="0"
       position="relative"
     >
-      <img
-        src="https://preodemo.gumlet.io/usr/venue/7602/section/646fbe4c64a6f.png"
-        alt="A house in a forest"
-        style={{
-          width: "100%",
-          height: "250px",
-          objectFit: "fill",
-          borderRadius: "var(--radius-2)",
-        }}
-      />
+      {selectedProduct?.images && selectedProduct?.images?.length > 0 && (
+        <img
+          src={selectedProduct.images[0].image}
+          alt={selectedProduct.name}
+          style={{
+            width: "100%",
+            height: "250px",
+            objectFit: "fill",
+          }}
+        />
+      )}
+      {!selectedProduct?.images && (
+        <CiImageOff
+          size="30px"
+          style={{
+            width: "100%",
+            height: "250px",
+            objectFit: "fill",
+            borderRadius: "var(--radius-2)",
+          }}
+        />
+      )}
       <Box>
         <Heading style={{ color: "#121212" }} size="4" ml="5" mr="5" mt="20px">
-          {productName}
+          {selectedProduct.name}
         </Heading>
-        <Heading style={{ color: "#464646" }} size="2" ml="5" mr="5" mb="4">
-          {productDescription}
-        </Heading>
-
-        <Container
-          width="100%"
-          pl="4"
-          pr="4"
-          pt="3"
-          pb="3"
-          mb="3"
-          style={{ backgroundColor: "#F8F9FA" }}
+        <Box
+          pl="5"
+          pr="5"
+          style={{
+            height: !checkIfThereAreProductModifiers ? "150px" : "",
+          }}
         >
-          <Flex ml="5" mr="5" direction="column">
-            <Text style={{ color: "#464646" }}  size="2" weight="bold">
-              Choose your size
-            </Text>
-            <Text style={{ color: "#5F5F5F" }} size="2">Select 1 option</Text>
-          </Flex>
-        </Container>
-        <Box pl="4" pr="4">
-          <ScrollArea
-            scrollbars="vertical"
-            style={{ height: 150, minWidth: 150 }}
-          >
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-            <CustomRadio title={"Teodros Girmay"} description={"Engineering"} />
-          </ScrollArea>
+          <Text style={{ color: "#464646" }} size="2" mb="4">
+            {selectedProduct.description}
+          </Text>
         </Box>
+
+        {checkIfThereAreProductModifiers && (
+          <>
+            {selectedProduct.modifiers?.map(
+              ({
+                items,
+                name,
+                maxChoices,
+                minChoices,
+                id,
+              }: {
+                items: [];
+                name: string;
+                maxChoices: number;
+                minChoices: number;
+                id: number;
+              }) => {
+                const selectNumberOfChooices =
+                  maxChoices === undefined ? minChoices : maxChoices;
+                return (
+                  <Box key={id}>
+                    <Container
+                      width="100%"
+                      pl="4"
+                      pr="4"
+                      pt="3"
+                      pb="3"
+                      mb="3"
+                      style={{ backgroundColor: "#F8F9FA" }}
+                    >
+                      <Flex ml="5" mr="5" direction="column">
+                        <Text
+                          style={{ color: "#464646" }}
+                          size="2"
+                          weight="bold"
+                        >
+                          {name}
+                        </Text>
+                        <Text style={{ color: "#5F5F5F" }} size="2">
+                          Select {selectNumberOfChooices} options
+                        </Text>
+                      </Flex>
+                    </Container>
+                    <Box pl="4" pr="4" style={{}}>
+                      <ScrollArea
+                        scrollbars="vertical"
+                        style={{ height: "15vh", minWidth: 150 }}
+                      >
+                        {items.map((item: any) => (
+                          <Box key={item?.id}>
+                            <CustomRadio
+                              title={item?.name}
+                              description={item?.price}
+                            />
+                          </Box>
+                        ))}
+                      </ScrollArea>
+                    </Box>
+                  </Box>
+                );
+              }
+            )}
+          </>
+        )}
       </Box>
     </Box>
   );

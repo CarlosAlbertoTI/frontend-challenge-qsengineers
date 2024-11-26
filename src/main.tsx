@@ -8,11 +8,12 @@ import "@locales/config.ts";
 import "@radix-ui/themes/styles.css";
 import "./index.css";
 
-
 import { AppSettingsProvider } from "@contexts/AppSettings/AppSettingsProvider";
-import { ProductsProvider } from "./contexts/Products/ProductsProvider";
+import { ProductsProvider } from "@contexts/Products/ProductsProvider";
+import { BasketProvider } from "@contexts/Basket/BasketProvider";
 
 import AppRouter from "@routes/routes";
+import { ProductSelectedProvider } from "./contexts/ProductSelected/ProductSelected";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -20,9 +21,13 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <AppSettingsProvider>
           <ProductsProvider>
-            <Dialog.Root>
-              <AppRouter />
-            </Dialog.Root>
+            <BasketProvider>
+              <ProductSelectedProvider>
+                <Dialog.Root>
+                  <AppRouter />
+                </Dialog.Root>
+              </ProductSelectedProvider>
+            </BasketProvider>
           </ProductsProvider>
         </AppSettingsProvider>
       </BrowserRouter>

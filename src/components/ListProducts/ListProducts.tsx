@@ -1,7 +1,11 @@
 import { Avatar, Box, Flex, TabNav, Text, ScrollArea } from "@radix-ui/themes";
 import React, { useContext } from "react";
 
-import { ProductsContext } from "@contexts/Products/ProductsProvider";
+import {
+  ProductsContext,
+  Product,
+  Section,
+} from "@contexts/Products/ProductsProvider";
 
 import Collapse from "../Collapse/Collapse";
 import ProductCard from "../ProductCard/ProductCard";
@@ -17,61 +21,57 @@ const ListProducts: React.FC<ListProductsProps> = ({ onPressMobile }) => {
   return (
     <>
       <TabNav.Root>
-        <ScrollArea scrollbars="horizontal" style={{ height: 150, }}>
-          <Flex gap={`${sections.length - 1}`} p="2">
-            {sections.map((section) => (
-              <Box key={section.id}>
-                <TabNav.Link
-                  href={`#${section.name}`}
-                  style={{
-                    marginLeft: 30,
-                    marginRight: 30,
-                    width: "60px",
-                    height: "140px",
-                  }}
-                >
-                  <Flex
-                    direction="column"
-                    justify="between"
-                    align="center"
+        <Box width={{ initial: "90%" }}>
+          <ScrollArea scrollbars="horizontal" style={{ height: 150 }}>
+            <Flex gap={`${sections.length - 1}`} p="2">
+              {sections.map((section: Section) => (
+                <Box key={section.id}>
+                  <TabNav.Link
+                    href={`#${section.name}`}
                     style={{
+                      marginLeft: 20,
+                      marginRight: 20,
+                      width: "60px",
                       height: "140px",
                     }}
                   >
-                    <Avatar
+                    <Flex
+                      direction="column"
+                      justify="between"
+                      align="center"
                       style={{
-                        width: "85px",
-                        height: "85px",
+                        height: "140px",
                       }}
-                      radius="full"
-                      fallback="A"
-                      src={section?.images?.[0]?.image ?? ""}
-                    />
+                    >
+                      <Avatar
+                        style={{
+                          width: "85px",
+                          height: "85px",
+                        }}
+                        radius="full"
+                        fallback="A"
+                        src={section?.images?.[0]?.image ?? ""}
+                      />
 
-                    <Text mt="5" mb="3" style={{ color: "#121212" }}>
-                      {section.name}
-                    </Text>
-                  </Flex>
-                </TabNav.Link>
-              </Box>
-            ))}
-          </Flex>
-        </ScrollArea>
+                      <Text mt="5" mb="3" style={{ color: "#121212" }}>
+                        {section.name}
+                      </Text>
+                    </Flex>
+                  </TabNav.Link>
+                </Box>
+              ))}
+            </Flex>
+          </ScrollArea>
+        </Box>
       </TabNav.Root>
       <Box pt="10">
-        {sections.map((section) => (
+        {sections.map((section: Section) => (
           <Box id={section.name} key={section.id}>
             <Collapse key={section.id} title={section.name}>
-              {section.items.map((item: any) => (
-                <ProductCard
-                  key={item.id}
-                  title={item.name}
-                  description={item.description}
-                  price={item.price}
-                  productAlreadyChooseAndAmount={1}
-                  imageUrl={item?.images?.[0]?.image ?? ""}
-                  onPressMobile={onPressMobile}
-                />
+              {section.items.map((item: Product) => (
+                <Box key={item.id}>
+                  <ProductCard product={item} onPressMobile={onPressMobile} />
+                </Box>
               ))}
             </Collapse>
           </Box>

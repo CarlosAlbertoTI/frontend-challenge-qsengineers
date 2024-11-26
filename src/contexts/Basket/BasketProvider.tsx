@@ -1,9 +1,8 @@
 import { createContext, useReducer, ReactNode, Dispatch } from "react";
+import { Product } from "../Products/ProductsProvider";
 
 interface BasketItem {
-  id: string;
-  name: string;
-  price: number;
+  product: Product;
   quantity: number;
 }
 
@@ -36,13 +35,13 @@ const basketReducer = (
     case "ADD_ITEM":
       if (action.payload) {
         const existingItem = state.items.find(
-          (item) => item.id === action.payload!.id
+          ({ product }) => product.id === action.payload!.product.id
         );
         if (existingItem) {
           return {
             ...state,
             items: state.items.map((item) =>
-              item.id === action.payload!.id
+              item.product.id === action.payload!.product.id
                 ? { ...item, quantity: item.quantity + 1 }
                 : item
             ),
@@ -50,15 +49,37 @@ const basketReducer = (
         }
         return {
           ...state,
-          items: [...state.items, { ...action.payload, quantity: 1 }],
+          items: [
+            ...state.items,
+            {
+              ...action.payload,
+              quantity:
+                action.payload.quantity > 1 ? action.payload.quantity : 1,
+            },
+          ],
         };
       }
       return state;
     case "REMOVE_ITEM":
       if (action.payload) {
+        const existingItem = state.items.find(
+          ({ product }) => product.id === action.payload!.product.id
+        );
+        if (existingItem && existingItem.quantity > 1) {
+          return {
+            ...state,
+            items: state.items.map((item) =>
+              item.product.id === action.payload!.product.id
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+            ),
+          };
+        }
         return {
           ...state,
-          items: state.items.filter((item) => item.id !== action.payload!.id),
+          items: state.items.filter(
+            ({ product }) => product.id !== action.payload!.product.id
+          ),
         };
       }
       return state;

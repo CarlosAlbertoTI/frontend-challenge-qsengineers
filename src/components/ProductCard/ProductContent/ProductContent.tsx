@@ -1,13 +1,17 @@
-import { forwardRef, useContext } from "react";
-import { Box, Flex, IconButton, Avatar, Text } from "@radix-ui/themes";
+import { forwardRef } from "react";
+import { Box, Flex, Avatar, Text } from "@radix-ui/themes";
 
-import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
-import { ProductCardProps } from "../ProductCard";
+// import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
+import { Product } from "@src/contexts/Products/ProductsProvider";
 
-const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
-  (props, contentRef) => {
-    const { setting } = useContext(AppSettingsContext);
-    const { webSettings } = setting;
+interface ProductContentProps {
+  product: Product;
+}
+
+const ProductContent = forwardRef<HTMLDivElement, ProductContentProps>(
+  ({ product }, contentRef) => {
+    // const { setting } = useContext(AppSettingsContext);
+    // const { webSettings } = setting;
 
     return (
       <Box ref={contentRef} m="2" mb="8">
@@ -15,7 +19,7 @@ const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
           <Flex position="relative" justify="between" direction="row">
             <Box mr="4">
               <Flex direction="row">
-                {props.productAlreadyChooseAndAmount !== 0 && (
+                {/* {0 == 0 && (
                   <IconButton
                     disabled
                     size="1"
@@ -26,10 +30,9 @@ const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
                       color: "#fff",
                     }}
                   >
-                    {props.productAlreadyChooseAndAmount}
+                    {1}
                   </IconButton>
-                )}
-
+                )} */}
                 <Text
                   style={{ color: "#121212" }}
                   as="div"
@@ -37,7 +40,7 @@ const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
                   weight="bold"
                   wrap="wrap"
                 >
-                  {props.title}
+                  {product.name}
                 </Text>
               </Flex>
               <Text
@@ -46,7 +49,7 @@ const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
                 size="1"
                 wrap="wrap"
               >
-                {props.description}
+                {product.description}
               </Text>
               <Text
                 style={{ color: "#464646" }}
@@ -54,16 +57,18 @@ const ProductContent = forwardRef<HTMLDivElement, ProductCardProps>(
                 weight="medium"
                 size="3"
               >
-                {props.price}
+                {product.price}
               </Text>
             </Box>
             <Box>
-              <Avatar
-                size="7"
-                src={props.imageUrl}
-                radius="small"
-                fallback="T"
-              />
+              {product?.images && product.images.length > 0 && (
+                <Avatar
+                  size="7"
+                  src={product.images[0]?.image}
+                  radius="small"
+                  fallback={""}
+                />
+              )}
             </Box>
           </Flex>
         </Box>

@@ -59,8 +59,8 @@ const CountItem: React.FC<CountItemProps> = ({
             colorOfMinusIcon={colorOfMinusIcon}
             colorOfPlusIcon={colorOfPlusIcon}
             amountProduct={amountProduct}
-            onPlusChangeAmountProduct={onMinusChangeAmountProduct}
-            onMinusChangeAmountProduct={onPlusChangeAmountProduct}
+            onPlusChangeAmountProduct={onPlusChangeAmountProduct}
+            onMinusChangeAmountProduct={onMinusChangeAmountProduct}
             type={"row"}
           />
         </Flex>

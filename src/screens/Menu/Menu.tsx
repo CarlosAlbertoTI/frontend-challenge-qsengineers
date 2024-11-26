@@ -18,10 +18,19 @@ import { getProductsRequest } from "@src/services/api/getProductsRequest";
 
 import { AppSettingsContext } from "@src/contexts/AppSettings/AppSettingsProvider";
 import { ProductsContext } from "@src/contexts/Products/ProductsProvider";
+import { BasketContext } from "@src/contexts/Basket/BasketProvider";
+import { ProductSelectedContext } from "@src/contexts/ProductSelected/ProductSelected";
 
 const MenuScreen: React.FC = () => {
   const navigate = useNavigate();
 
+  const {
+    selectedProduct,
+    amountOfSelectedProduct,
+    changeAmountOfSelectProduct,
+    resetSelectedProduct,
+  } = useContext(ProductSelectedContext);
+  const { dispatch, state } = useContext(BasketContext);
   const { addProductList } = useContext(ProductsContext);
   const { setting } = useContext(AppSettingsContext);
   const { webSettings } = setting;
@@ -33,22 +42,33 @@ const MenuScreen: React.FC = () => {
     setShowChooseProductCardOnFullScreen,
   ] = useState(false);
 
+  const handleAddSelectedProductToBasket = () => {
+    dispatch({
+      type: "ADD_ITEM",
+      payload: { product: selectedProduct, quantity: amountOfSelectedProduct },
+    });
+  };
+
+  const handlePlusAmountOfSelectedProduct = () =>
+    changeAmountOfSelectProduct(amountOfSelectedProduct + 1);
+  const handleMinusAmountOfSelectedProduct = () => {
+    changeAmountOfSelectProduct(amountOfSelectedProduct - 1);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       if (Object.keys(setting).length === 0) {
-        console.info("returning to loading");
         navigate("/");
       } else {
         setLoadingWebSettings(false);
       }
     }, 2000);
-  }, [setting]);
+  }, [setting, navigate]);
 
   useEffect(() => {
     const getProductsOfStore = async () => {
       const response = await getProductsRequest();
       if (response) {
-        console.info("products", response);
         addProductList(response);
       }
     };
@@ -65,6 +85,7 @@ const MenuScreen: React.FC = () => {
           <ScrollArea
             style={{
               position: "relative",
+              paddingBottom:'30px'
             }}
           >
             <Box
@@ -76,7 +97,7 @@ const MenuScreen: React.FC = () => {
             >
               <ProductModal />
               <Header />
-              <Box width={{  md: "70%" }} m="auto">
+              <Box width={{ md: "70%" }} m="auto">
                 <Search />
                 <Flex
                   style={{ backgroundColor: "#F8F9FA" }}
@@ -92,7 +113,7 @@ const MenuScreen: React.FC = () => {
                       initial: isBasketVisibleOnMobile ? "none" : "inline",
                       md: "inline",
                     }}
-                    width={{ md: "70%", xl: "70%" }}
+                    width={{ md: "50%", xl: "50%" }}
                     p="5"
                     flexGrow="2"
                     style={{
@@ -101,7 +122,6 @@ const MenuScreen: React.FC = () => {
                     }}
                   >
                     <ListProducts
-                      
                       onPressMobile={() =>
                         setShowChooseProductCardOnFullScreen(
                           (prevState) => !prevState
@@ -131,9 +151,9 @@ const MenuScreen: React.FC = () => {
             }}
           >
             <CustomButton
-              label={"Your Basket - 1 Item"}
+              label={`Your Basket - ${state.items.length} Item`}
               hasBlur
-              height="55px"
+              height="50px"
               onClick={() =>
                 setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
               }
@@ -162,31 +182,38 @@ const MenuScreen: React.FC = () => {
           <ContainerFullScreen
             title="Choose your size"
             titleType={"image"}
-            onCloseContainer={() =>
+            onCloseContainer={() => {
+              resetSelectedProduct();
               setShowChooseProductCardOnFullScreen(
                 !showChooseProductCardOnFullScreen
-              )
-            }
-            buttonTitle="Add to Order • R$11.75"
+              );
+            }}
+            onPressBottomButton={() => {
+              resetSelectedProduct();
+              handleAddSelectedProductToBasket();
+              setShowChooseProductCardOnFullScreen(
+                !showChooseProductCardOnFullScreen
+              );
+            }}
+            buttonTitle={`Add to Order • R$${
+              selectedProduct.price * amountOfSelectedProduct
+            }`}
             hasActions
             bottomActions={[
               <MinusOrAdd
                 width="150px"
                 sizeIcon={35}
                 sizeText="25px"
-                amountProduct={1}
+                amountProduct={amountOfSelectedProduct}
                 colorOfMinusIcon="#DADADA"
-                onPlusChangeAmountProduct={() => {}}
-                onMinusChangeAmountProduct={() => {}}
+                onPlusChangeAmountProduct={handlePlusAmountOfSelectedProduct}
+                onMinusChangeAmountProduct={handleMinusAmountOfSelectedProduct}
                 type={"row"}
               />,
             ]}
             buttonHeight="100px"
           >
-            <ProductModalContent
-              productName={"teste"}
-              productDescription={"teste"}
-            />
+            <ProductModalContent />
           </ContainerFullScreen>
         </Box>
       )}

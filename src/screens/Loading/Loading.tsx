@@ -13,10 +13,9 @@ const LoadingScreen: React.FC = () => {
 
   useEffect(() => {
     if (Object.keys(setting).length !== 0) {
-      console.info(setting);
       navigate("/Menu");
     }
-  }, [setting]);
+  }, [setting, navigate]);
 
   useEffect(() => {
     const requestAppSettings = async () => {

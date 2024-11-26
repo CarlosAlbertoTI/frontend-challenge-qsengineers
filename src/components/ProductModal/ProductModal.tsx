@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Dialog, VisuallyHidden } from "@radix-ui/themes";
 import { IoCloseCircleSharp } from "react-icons/io5";
 
+import { ProductSelectedContext } from "@contexts/ProductSelected/ProductSelected";
+import { BasketContext } from "@contexts/Basket/BasketProvider";
 
 import ProductModalContent from "./ProductModal/ProductModalContent";
 import CustomButtom from "../CustomButton/CustomButton";
+import MinusOrAdd from "../MinusOrAdd/MinusOrAdd";
 
 const ProductModal: React.FC = () => {
+  const {
+    selectedProduct,
+    amountOfSelectedProduct,
+    changeAmountOfSelectProduct,
+    resetSelectedProduct,
+  } = useContext(ProductSelectedContext);
+  const { dispatch } = useContext(BasketContext);
+
+  const handlePlusAmountOfSelectedProduct = () =>
+    changeAmountOfSelectProduct(amountOfSelectedProduct + 1);
+  const handleMinusAmountOfSelectedProduct = () => {
+    changeAmountOfSelectProduct(amountOfSelectedProduct - 1);
+  };
+
   return (
     <Box
       maxWidth="100%"
@@ -15,9 +32,9 @@ const ProductModal: React.FC = () => {
       maxHeight="100%"
     >
       <Dialog.Content
-        height="100%"
         maxWidth="100%"
         width={{ initial: "100%", md: "40%" }}
+        height={{ initial: "100%", md: "75vh" }}
         style={{
           borderRadius: 0,
           paddingTop: 0,
@@ -25,29 +42,57 @@ const ProductModal: React.FC = () => {
           paddingRight: 0,
         }}
       >
-        <ProductModalContent
-          productName={"teste"}
-          productDescription={"test teste"}
-        />
+        <ProductModalContent />
 
         <Box position="absolute" top="5" right="4">
-          <Dialog.Close>
+          <Dialog.Close onClick={resetSelectedProduct}>
             <IoCloseCircleSharp
               size={40}
-              colorProfile={"white"}
               color="white"
+              style={{
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
+              }}
             />
           </Dialog.Close>
         </Box>
         <VisuallyHidden>
-          <Dialog.Title>Edit profile</Dialog.Title>
+          <Dialog.Title>{selectedProduct.name}</Dialog.Title>
         </VisuallyHidden>
-        <CustomButtom
-          label={"Teste"}
-          height="55px"
-          hasBlur
-          onClick={() => {}}
-        />
+        <VisuallyHidden>
+          <Dialog.Description>{selectedProduct.description}</Dialog.Description>
+        </VisuallyHidden>
+        <Dialog.Close>
+          <CustomButtom
+            label={`Add to Order • R$${
+              selectedProduct.price * amountOfSelectedProduct
+            }`}
+            height="95px"
+            hasBlur
+            onClick={() => {
+              resetSelectedProduct();
+              dispatch({
+                payload: {
+                  product: selectedProduct,
+                  quantity: amountOfSelectedProduct,
+                },
+                type: "ADD_ITEM",
+              });
+            }}
+            hasActions
+            Actions={[
+              <MinusOrAdd
+                width="150px"
+                sizeIcon={35}
+                sizeText="25px"
+                amountProduct={amountOfSelectedProduct}
+                colorOfMinusIcon="#DADADA"
+                onPlusChangeAmountProduct={handlePlusAmountOfSelectedProduct}
+                onMinusChangeAmountProduct={handleMinusAmountOfSelectedProduct}
+                type={"row"}
+              />,
+            ]}
+          />
+        </Dialog.Close>
       </Dialog.Content>
     </Box>
   );

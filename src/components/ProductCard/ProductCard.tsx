@@ -1,31 +1,21 @@
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
 import { Box, Dialog } from "@radix-ui/themes";
 
 import ProductContent from "./ProductContent/ProductContent";
+import { ProductSelectedContext } from "@src/contexts/ProductSelected/ProductSelected";
+import { Product } from "@src/contexts/Products/ProductsProvider";
 
-export interface ProductCardProps {
-  title: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  productAlreadyChooseAndAmount: number;
-}
-interface ProductCardMainComponentProps extends ProductCardProps {
+interface ProductCardMainComponentProps {
+  product: Product;
   onPressMobile: () => void;
 }
 
 const ProductCard = forwardRef<HTMLDivElement, ProductCardMainComponentProps>(
-  (
-    {
-      title,
-      description,
-      price,
-      imageUrl,
-      productAlreadyChooseAndAmount,
-      onPressMobile,
-    },
-    ref
-  ) => {
+  ({ product, onPressMobile }, ref) => {
+    const { setSelectedProduct } = useContext(ProductSelectedContext);
+
+    const handleSaveSelectedProduct = () => setSelectedProduct(product);
+
     return (
       <Box>
         <Box
@@ -35,26 +25,23 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardMainComponentProps>(
           }}
           ref={ref}
         >
-          <Dialog.Trigger>
+          <Dialog.Trigger onClick={handleSaveSelectedProduct}>
             <Box>
-              <ProductContent
-                title={title}
-                description={description}
-                price={price}
-                imageUrl={imageUrl}
-                productAlreadyChooseAndAmount={productAlreadyChooseAndAmount}
-              />
+              <ProductContent product={product} />
             </Box>
           </Dialog.Trigger>
         </Box>
-        <Box onClick={onPressMobile}>
-          <ProductContent
-            title={title}
-            description={description}
-            price={price}
-            imageUrl={imageUrl}
-            productAlreadyChooseAndAmount={productAlreadyChooseAndAmount}
-          />
+        <Box
+          display={{
+            initial: "inline",
+            md: "none",
+          }}
+          onClick={() => {
+            handleSaveSelectedProduct();
+            onPressMobile();
+          }}
+        >
+          <ProductContent product={product} />
         </Box>
       </Box>
     );
