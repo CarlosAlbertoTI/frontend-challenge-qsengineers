@@ -3,7 +3,7 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import { Box, Container, Flex, Heading } from "@radix-ui/themes";
 
 
-import CustomButton from "../CustomButton/CustomButton";
+import CustomButtonWithBlur from "../CustomButtonWithBlur/CustomButton";
 
 interface ContainerFullScreenProps {
   title: string;
@@ -88,7 +88,7 @@ const ContainerFullScreen: React.FC<ContainerFullScreenProps> = ({
         {children}
         {hasBottomButton && (
           <>
-            <CustomButton
+            <CustomButtonWithBlur
               height={buttonHeight}
               label={buttonTitle}
               hasActions={hasActions}

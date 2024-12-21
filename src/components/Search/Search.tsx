@@ -1,8 +1,13 @@
 import { Box, Container } from "@radix-ui/themes";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoIosClose } from "react-icons/io";
 import React, { useRef } from "react";
 
-const Search: React.FC = () => {
+interface SearchProps {
+  searchValue: string;
+  onSearchValue: (searchValue: string) => void;
+}
+
+const Search: React.FC<SearchProps> = ({ searchValue = "", onSearchValue }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleIconClick = () => {
@@ -24,7 +29,6 @@ const Search: React.FC = () => {
         <IoIosSearch
           size={22}
           style={{
-            
             position: "absolute",
             top: "50%",
             left: "10px",
@@ -35,6 +39,10 @@ const Search: React.FC = () => {
           onClick={handleIconClick}
         />
         <input
+          value={searchValue}
+          onChange={(e) =>
+            onSearchValue(e.target.value == undefined ? "" : e.target.value)
+          }
           ref={inputRef}
           style={{
             paddingLeft: "45px",
@@ -46,6 +54,20 @@ const Search: React.FC = () => {
           className="border border-gray-300 rounded-md p-2 w-full"
           placeholder="Search menu items..."
         />
+        {searchValue.length > 0 && (
+          <IoIosClose
+            size={30}
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: "10px",
+              transform: "translateY(-50%)",
+              color: "#8A94A4",
+              cursor: "pointer",
+            }}
+            onClick={() => onSearchValue("")}
+          />
+        )}
       </Box>
     </Container>
   );

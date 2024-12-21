@@ -1,103 +1,45 @@
-import React, { useContext } from "react";
-import { Box, Container, Flex, Button } from "@radix-ui/themes";
-import { AppSettingsContext } from "@src/contexts/AppSettings/AppSettingsProvider";
+import React from "react";
+import { Box, Button } from "@radix-ui/themes";
+
+import { RootState } from "@src/store";
+import { useSelector } from "react-redux";
 
 interface CustomButtonProps {
-  label: string;
-  onClick: () => void;
   height?: string;
-  blurColor?: string;
-  hasActions?: boolean;
-  Actions?: JSX.Element[];
-  disabled?: boolean;
-  hasBlur?: boolean;
+  width?: string;
+  style?: object;
+  radius?: "small" | "none" | "medium" | "full" | "large";
+  disable: boolean;
+  onClick: () => void;
+  label: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
-  label,
   onClick,
-  height = "95px",
-  disabled,
-  blurColor = "#eee",
-  hasActions = false,
-  Actions = [],
-  hasBlur,
+  label,
+  disable,
+  radius = "none",
+  width = "100%",
+  height = "50px",
+  style = {},
 }) => {
-  const { setting } = useContext(AppSettingsContext);
-  const { webSettings } = setting;
+  const { webSettings } = useSelector((state: RootState) => state.webSettings);
+
   return (
-    <Container
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "100px",
-        bottom: 0,
-        left: 0,
-      }}
-    >
-      {hasBlur && (
-        <Container
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100px",
-            top: 0,
-            left: 0,
-            zIndex: 1,
-          }}
-        >
-          <Box
-            style={{
-              width: "100%",
-              height: "100px",
-              backgroundColor: blurColor,
-              opacity: 1,
-              filter: "blur(10px)",
-            }}
-          ></Box>
-        </Container>
-      )}
-      <Container
+    <Box height={height} width={width}>
+      <Button
+        onClick={onClick}
+        disabled={disable}
+        radius={radius}
         style={{
-          position: "absolute",
           width: "100%",
-          height: height,
-          bottom: "10px",
-          left: 0,
-          zIndex: 2,
+          backgroundColor: webSettings.primaryColour,
+          ...style,
         }}
       >
-        <Flex direction="column" justify="center" align="center">
-          {hasActions && (
-            <>
-              {Actions.map((Action, index) => (
-                <React.Fragment key={index}>{Action}</React.Fragment>
-              ))}
-            </>
-          )}
-          <Box
-            mt="3"
-            style={{
-              width: "90%",
-            }}
-          >
-            <Flex justify="center">
-              <Button
-                onClick={onClick}
-                disabled={disabled}
-                radius="full"
-                style={{
-                  width: "100%",
-                  backgroundColor: webSettings.primaryColour,
-                }}
-              >
-                {label}
-              </Button>
-            </Flex>
-          </Box>
-        </Flex>
-      </Container>
-    </Container>
+        {label}
+      </Button>
+    </Box>
   );
 };
 

@@ -2,34 +2,29 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Dialog, Theme } from "@radix-ui/themes";
 import { BrowserRouter } from "react-router";
+import { Provider } from "react-redux";
+
+import "@radix-ui/themes/styles.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import "./index.css";
 
 import "@locales/config.ts";
 
-import "@radix-ui/themes/styles.css";
-import "./index.css";
-
-import { AppSettingsProvider } from "@contexts/AppSettings/AppSettingsProvider";
-import { ProductsProvider } from "@contexts/Products/ProductsProvider";
-import { BasketProvider } from "@contexts/Basket/BasketProvider";
+import store from "@store/index";
 
 import AppRouter from "@routes/routes";
-import { ProductSelectedProvider } from "./contexts/ProductSelected/ProductSelected";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Theme>
       <BrowserRouter>
-        <AppSettingsProvider>
-          <ProductsProvider>
-            <BasketProvider>
-              <ProductSelectedProvider>
-                <Dialog.Root>
-                  <AppRouter />
-                </Dialog.Root>
-              </ProductSelectedProvider>
-            </BasketProvider>
-          </ProductsProvider>
-        </AppSettingsProvider>
+        <Dialog.Root>
+          <Provider store={store}>
+            <AppRouter />
+          </Provider>
+        </Dialog.Root>
       </BrowserRouter>
     </Theme>
   </StrictMode>

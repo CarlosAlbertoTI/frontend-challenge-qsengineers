@@ -1,26 +1,27 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Box, Flex, Heading } from "@radix-ui/themes";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
-import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
+import { useSelector } from "react-redux";
+import { RootState } from "@src/store";
 
 interface CollapseProps {
   title: string;
   children: React.ReactNode;
+  innerRef?: React.Ref<HTMLDivElement>;
 }
 
-const Collapse: React.FC<CollapseProps> = ({ title, children }) => {
+const Collapse: React.FC<CollapseProps> = ({ title, children, innerRef }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const { setting } = useContext(AppSettingsContext);
-  const { webSettings } = setting;
+  const { webSettings } = useSelector((state: RootState) => state.webSettings);
 
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <Box mt="2" minHeight={{initial:"80px"}}>
+    <Box ref={innerRef} mt="2" minHeight={{ initial: "80px" }}>
       <Flex direction="row" justify="between">
         <Flex
           width="100%"

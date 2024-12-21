@@ -1,17 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { IoMenu } from "react-icons/io5";
 import { Flex, Heading } from "@radix-ui/themes";
 
 import { useTranslation } from "@hooks/useTranslation";
-import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
+import { RootState } from "@src/store";
 
 const Header: React.FC = () => {
   const { t } = useTranslation(["Header"]);
 
-  const { setting } = useContext(AppSettingsContext);
-  const { webSettings } = setting;
-  const { bannerImage, navBackgroundColour } = webSettings;
+  const webSettings = useSelector((state: RootState) => state.webSettings);
+  const {
+    webSettings: { bannerImage, navBackgroundColour },
+  } = webSettings;
   return (
     <>
       <Flex

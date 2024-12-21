@@ -1,27 +1,31 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import i18next from "i18next";
 import { Container, Flex, Spinner } from "@radix-ui/themes";
 import { useNavigate } from "react-router";
 
 import { getAppSettingsServiceRequest } from "@src/services/api/getAppConfigSettingsRequest";
 
-import { AppSettingsContext } from "@src/contexts/AppSettings/AppSettingsProvider";
-import i18next from "i18next";
+import { AppDispatch, RootState } from "@src/store";
+import { setAppSettingsValue } from "@store/appSettings";
 
 const LoadingScreen: React.FC = () => {
+  const webSettings = useSelector((state: RootState) => state.webSettings);
+  const dispatch = useDispatch<AppDispatch>();
+
   const navigate = useNavigate();
-  const { setting, setSetting } = useContext(AppSettingsContext);
 
   useEffect(() => {
-    if (Object.keys(setting).length !== 0) {
+    if (webSettings.id !== 0) {
       navigate("/Menu");
     }
-  }, [setting, navigate]);
+  }, [webSettings]);
 
   useEffect(() => {
     const requestAppSettings = async () => {
       const response = await getAppSettingsServiceRequest();
       if (response) {
-        setSetting(response);
+        dispatch(setAppSettingsValue(response));
         await i18next.changeLanguage(response.locale);
         document.title = response.internalName;
       }

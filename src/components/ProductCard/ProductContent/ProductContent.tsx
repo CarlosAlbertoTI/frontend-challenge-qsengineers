@@ -1,25 +1,33 @@
 import { forwardRef } from "react";
-import { Box, Flex, Avatar, Text } from "@radix-ui/themes";
+import { useSelector } from "react-redux";
+import { Box, Flex, Avatar, Text, IconButton } from "@radix-ui/themes";
 
-// import { AppSettingsContext } from "@contexts/AppSettings/AppSettingsProvider";
-import { Product } from "@src/contexts/Products/ProductsProvider";
+import { formatMoney } from "@utils/getFormatCurrency";
+
+import { RootState } from "@store/index";
+import { Product } from "@store/menu/types";
 
 interface ProductContentProps {
   product: Product;
+  count: number | undefined;
 }
 
 const ProductContent = forwardRef<HTMLDivElement, ProductContentProps>(
-  ({ product }, contentRef) => {
-    // const { setting } = useContext(AppSettingsContext);
-    // const { webSettings } = setting;
+  ({ product, count }, contentRef) => {
+    const setting = useSelector((state: RootState) => state.webSettings);
+
+    const { webSettings } = setting;
 
     return (
-      <Box ref={contentRef} m="2" mb="8">
-        <Box>
-          <Flex position="relative" justify="between" direction="row">
-            <Box mr="4">
-              <Flex direction="row">
-                {/* {0 == 0 && (
+      <Box  ref={contentRef} m="2" mb="4">
+        <Flex
+          position="relative"
+          justify="between"
+          direction="row"
+        >
+          <Box mr="0">
+            <Flex direction="row">
+                {count != undefined && count != 0 && (
                   <IconButton
                     disabled
                     size="1"
@@ -30,9 +38,9 @@ const ProductContent = forwardRef<HTMLDivElement, ProductContentProps>(
                       color: "#fff",
                     }}
                   >
-                    {1}
+                    {count}
                   </IconButton>
-                )} */}
+                )}
                 <Text
                   style={{ color: "#121212" }}
                   as="div"
@@ -43,7 +51,7 @@ const ProductContent = forwardRef<HTMLDivElement, ProductContentProps>(
                   {product.name}
                 </Text>
               </Flex>
-              <Text
+            <Text
                 style={{ color: "#464646", minWidth: "30px", width: "100px" }}
                 weight="light"
                 size="1"
@@ -51,16 +59,16 @@ const ProductContent = forwardRef<HTMLDivElement, ProductContentProps>(
               >
                 {product.description}
               </Text>
-              <Text
-                style={{ color: "#464646" }}
-                as="div"
-                weight="medium"
-                size="3"
-              >
-                {product.price}
-              </Text>
-            </Box>
-            <Box>
+            <Text
+              style={{ color: "#464646" }}
+              as="div"
+              weight="medium"
+              size="3"
+            >
+              {formatMoney(product.price || 0, "BRL", "pt-BR")}
+            </Text>
+          </Box>
+          <Box ml="5">
               {product?.images && product.images.length > 0 && (
                 <Avatar
                   size="7"
@@ -70,8 +78,7 @@ const ProductContent = forwardRef<HTMLDivElement, ProductContentProps>(
                 />
               )}
             </Box>
-          </Flex>
-        </Box>
+        </Flex>
       </Box>
     );
   }
