@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance } from "axios";
 
 const axiosInstance: AxiosInstance = Axios.create({
-  baseURL: "https://cdn-dev.preoday.com/challenge",
+  baseURL: " https://cors-anywhere.herokuapp.com/https://cdn-dev.preoday.com/challenge/",
   timeout: 2000,
 
   headers: {
