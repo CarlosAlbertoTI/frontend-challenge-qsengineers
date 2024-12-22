@@ -279,7 +279,6 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
                     color: webSettings.backgroundColour,
                     outline: "none",
                   }}
-                  width="90%"
                   disabled={false}
                   height="60px"
                   label={t("backet_checkout")}
