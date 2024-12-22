@@ -1,6 +1,5 @@
 import { Modifier, Product } from "../menu/types";
 
-
 export interface BasketItem {
   id?: number;
   product: Product;
@@ -12,4 +11,5 @@ export interface BasketItem {
 export interface BasketState {
   items: BasketItem[];
   subtotal: number;
+  instructions: string;
 }

@@ -25,11 +25,11 @@ const Header: React.FC = () => {
             <li className="w-32 relative group text-lg">
               <a
                 href="#menu"
-                className="hover:text-gray-400 flex justify-center"
+                className="hover:text-gray-400 flex justify-center active"
               >
                 {t("header_menu")}
               </a>
-              <span className="w-32 absolute left-0 right-0 top-9 h-1 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></span>
+              <span className="w-32 absolute left-0 right-0 top-9 h-1 bg-white transform scale-y-100 group-hover:scale-y-100 transition-transform duration-300"></span>
             </li>
             <li className="w-32 relative group text-lg">
               <a
@@ -70,13 +70,13 @@ const Header: React.FC = () => {
           </DropdownMenu.Root>
         </nav>
         <div className="flex justify-center w-full md:hidden pl-14">
-          <Heading>Menu</Heading>
+          <Heading>{t("header_menu")}</Heading>
         </div>
       </Flex>
       <img
         style={{ borderBottom: "5px solid white" }}
         src={bannerImage}
-        alt="Example"
+        alt={webSettings.description || ""}
         className="w-full object-cover h-8 min-h-32 min-w-20"
       />
     </>

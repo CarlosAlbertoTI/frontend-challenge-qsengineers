@@ -3,11 +3,13 @@ import basket, {
   addItemToBasket,
   removeItemFromBasket,
   clearBasket,
+  changeInstructions,
 } from "./slice";
 export {
   basket,
   setBasket,
-    addItemToBasket,
+  addItemToBasket,
   removeItemFromBasket,
+  changeInstructions,
   clearBasket,
 };

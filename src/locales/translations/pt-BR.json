@@ -5,15 +5,24 @@
     "header_contact": "Contato"
   },
   "HomePage": {
-    "home_page_search": "Search item on menu..."
+    "home_page_search": "Pesquise um item no menu..."
   },
   "Basket": {
-    "basket_title": "Carrinho",
+    "basket_title": "Carrinho ",
     "basket_empty": "Seu carrinho está vazio",
     "basket_total": "Total",
     "basket_sub_total": "Sub total",
-    "backet_checkout": "Checkout Now",
-    "backet_add_extra_instructions": "Add extra instructions"
+    "backet_checkout": "Finalizar Compra",
+    "instructions_title": "Instruções",
+    "backet_add_extra_instructions": "Adicionar instruções extras",
+    "backet_change_extra_instructions": "Alterar instruções"
+  },
+
+  "Instructions_modal": {
+    "title": "Adicionar instruções extras",
+    "description": "Escreva qualquer coisa que devamos saber",
+    "save_btn": "Salvar",
+    "cancel_btn": "Cancelar"
   },
   "ProductModal": {
     "product_select_choices": "Escolha uma opção"

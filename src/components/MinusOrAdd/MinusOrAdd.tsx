@@ -28,6 +28,7 @@ const MinusOrAdd: React.FC<MinusOrAddPrpps> = ({
   return (
     <Flex width={width} direction={type} justify="between" align="center">
       <FaMinusCircle
+        style={{ cursor: "pointer" }}
         size={sizeIcon}
         color={colorOfMinusIcon}
         onClick={onMinusChangeAmountProduct}
@@ -37,6 +38,7 @@ const MinusOrAdd: React.FC<MinusOrAddPrpps> = ({
       </Text>
 
       <FaPlusCircle
+        style={{ cursor: "pointer" }}
         size={sizeIcon}
         color={colorOfPlusIcon}
         onClick={onPlusChangeAmountProduct}

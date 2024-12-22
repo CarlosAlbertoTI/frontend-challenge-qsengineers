@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import {
   Box,
+  Button,
+  Dialog,
   Flex,
   Heading,
   Link,
@@ -8,39 +10,52 @@ import {
   Separator,
   Text,
 } from "@radix-ui/themes";
+import { useDispatch, useSelector } from "react-redux";
 import { TfiWrite } from "react-icons/tfi";
 import { FaPlus } from "react-icons/fa";
+import { useTheme } from "styled-components";
 
 import CountItem from "./CountItem/CountItem";
 
 import { useTranslation } from "@hooks/useTranslation";
 
-import CustomButton from "../CustomButton/CustomButton";
-import { formatMoney } from "@src/utils/getFormatCurrency";
-import { useDispatch, useSelector } from "react-redux";
+import CustomButton from "@components/CustomButtonWithBlur/CustomButton";
+
+import { formatMoney } from "@utils/getFormatCurrency";
+
 import { AppDispatch, RootState } from "@src/store";
-import {
-  addItemToBasket,
-  removeItemFromBasket,
-  setBasket,
-} from "@src/store/bag";
-import { getData } from "@src/libs/local storage";
-import { BasketItem, BasketState } from "@src/store/bag/types";
+import { addItemToBasket, removeItemFromBasket, setBasket } from "@store/bag";
+import { BasketState } from "@store/bag/types";
+
+import { getData } from "@libs/local storage";
 
 interface BasketProps {
   showTitle?: boolean;
-  showBottomButton?: boolean;
 }
 
 const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
   const { t } = useTranslation(["Basket"]);
 
-  const { items, subtotal } = useSelector((state: RootState) => state.basket);
+  const { items, subtotal, instructions } = useSelector(
+    (state: RootState) => state.basket
+  );
+  const setting = useSelector((state: RootState) => state.webSettings);
+
+  const { colors } = useTheme();
+  const { webSettings } = setting;
 
   const dispatch = useDispatch<AppDispatch>();
 
   const isBasketEmpty = items.length == 0;
   const isNotBasketEmpty = items.length != 0;
+
+  const formattedPrice = formatMoney(subtotal, setting.ccy, setting.locale);
+
+  const checkIfInstructionsAreEmpty = instructions.length === 0;
+
+  const textOfExtraInstructions = checkIfInstructionsAreEmpty
+    ? t(["backet_add_extra_instructions"])
+    : t(["backet_change_extra_instructions"]);
 
   useEffect(() => {
     const basketData: BasketState | null = getData(
@@ -54,7 +69,7 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
   return (
     <>
       <Flex
-        height="100%"
+        height={{ initial: "90vh", md: "100%" }}
         wrap="nowrap"
         flexGrow="1"
         direction="column"
@@ -72,10 +87,10 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
             style={{
               zIndex: 1000,
               width: "100%",
-              backgroundColor: "#F8F9FA",
+              backgroundColor: colors.main,
             }}
           >
-            <Heading style={{ color: "#464646" }} size="4">
+            <Heading style={{ color: colors.lightGray }} size="4">
               {t(["basket_title"])}
             </Heading>
           </Box>
@@ -85,7 +100,7 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
           {isBasketEmpty && (
             <Flex justify="center" align="center">
               <Box ml="3" mt="4" mb="5">
-                <Text size="1" style={{ color: "#464646" }}>
+                <Text size="1" style={{ color: colors.lightGray }}>
                   {t(["basket_empty"])}
                 </Text>
               </Box>
@@ -145,8 +160,14 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
         </Box>
         {items.length != 0 && (
           <Box
+            flexGrow="1"
+            pb={{
+              initial: "9",
+              md: "0",
+            }}
+            height="100%"
             style={{
-              backgroundColor: "#F8F9FA",
+              backgroundColor: colors.main,
             }}
           >
             <Flex
@@ -161,18 +182,22 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
                 width: "100%",
               }}
             >
-              <Text style={{ color: "#121212" }} size="2">
+              <Text style={{ color: colors.darkBackground }} size="2">
                 {t(["basket_sub_total"])}
               </Text>
-              <Text style={{ color: "#121212" }} weight="medium" size="2">
-                {formatMoney(subtotal || 0, "BRL", "pt-BR")}
+              <Text
+                style={{ color: colors.darkBackground }}
+                weight="medium"
+                size="2"
+              >
+                {formattedPrice}
               </Text>
             </Flex>
             <Flex justify="center">
               <Separator
                 style={{
                   width: showTitle ? "100%" : "95%",
-                  backgroundColor: "#DADADA",
+                  backgroundColor: colors.lighterGray,
                 }}
               />
             </Flex>
@@ -185,37 +210,56 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
               height="50px"
               style={{
                 width: "100%",
-                backgroundColor: "#F8F9FA",
+                backgroundColor: colors.main,
               }}
             >
-              <Text size="3" style={{ color: "#121212" }}>
+              <Text size="3" style={{ color: colors.darkBackground }}>
                 {t(["basket_total"])}
               </Text>
-              <Text size="3" style={{ color: "#121212" }} weight="medium">
+              <Text
+                size="3"
+                style={{ color: colors.darkBackground }}
+                weight="medium"
+              >
                 {""}
               </Text>
             </Flex>
+            {!checkIfInstructionsAreEmpty && (
+              <Flex
+                pl="4"
+                pr="4"
+                direction="column"
+                justify="start"
+                align="start"
+              >
+                <Box>
+                  <Heading size="2">{t(["instructions_title"])}</Heading>
+                </Box>
+                <Box>
+                  <Text size="1">{instructions}</Text>
+                </Box>
+              </Flex>
+            )}
             <Flex
               mt="4"
+              mb="7"
               pl="4"
               pr="4"
-              justify="between"
+              justify="center"
               direction="row"
               align="center"
             >
-              <Flex
-                direction="row"
-                align="center"
-                onClick={() => {
-                  console.info("open modal");
-                }}
-              >
-                <TfiWrite />
-                <Link size="1" ml="3">
-                  {t("backet_add_extra_instructions")}
-                </Link>
-              </Flex>
-              <FaPlus />
+              <Dialog.Trigger>
+                <Button style={{ cursor: "pointer" }} variant="ghost">
+                  <Flex direction="row" align="center">
+                    <TfiWrite color={webSettings.navBackgroundColour} />
+                    <Link size="1" ml="3">
+                      {textOfExtraInstructions}
+                    </Link>
+                  </Flex>
+                  <FaPlus color={webSettings.navBackgroundColour} />
+                </Button>
+              </Dialog.Trigger>
             </Flex>
 
             <Box width="100%" display={{ initial: "none", md: "inline" }}>
@@ -230,8 +274,13 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
                 align="center"
               >
                 <CustomButton
+                  style={{
+                    backgroundColor: webSettings.primaryColour,
+                    color: webSettings.backgroundColour,
+                    outline: "none",
+                  }}
                   width="90%"
-                  disable={false}
+                  disabled={false}
                   height="60px"
                   label={t("backet_checkout")}
                   onClick={function (): void {

@@ -1,11 +1,14 @@
 import React from "react";
 import { Box, Flex, Text } from "@radix-ui/themes";
+import { useSelector } from "react-redux";
+import { useTheme } from "styled-components";
 
 import MinusOrAdd from "@components/MinusOrAdd/MinusOrAdd";
 
-import { Modifier } from "@src/store/menu/types";
+import { Modifier } from "@store/menu/types";
+import { RootState } from "@src/store";
 
-import { formatMoney } from "@src/utils/getFormatCurrency";
+import { formatMoney } from "@utils/getFormatCurrency";
 
 interface CountItemProps {
   productName: string;
@@ -28,6 +31,11 @@ const CountItem: React.FC<CountItemProps> = ({
   onPlusChangeAmountProduct,
   onMinusChangeAmountProduct,
 }) => {
+  const { colors } = useTheme();
+  const setting = useSelector((state: RootState) => state.webSettings);
+
+  const formattedPrice = (price: number) =>
+    formatMoney(price, setting.ccy, setting.locale);
 
   return (
     <Box pl="5" pr="5" pb="4" pt="2">
@@ -36,7 +44,7 @@ const CountItem: React.FC<CountItemProps> = ({
           <Flex direction="column" justify="start" mb="3">
             <Text
               style={{
-                color: "#121212",
+                color: colors.darkBackground,
               }}
               size="2"
               weight="medium"
@@ -49,26 +57,21 @@ const CountItem: React.FC<CountItemProps> = ({
                   <Box key={modifier.id}>
                     {modifier.items.map((item) => (
                       <Box key={item.id}>
-                        {item.quantity && item.quantity >= 1 && (
-                          <>
-                            <Box display={{ initial: "inline", md: "none" }}>
-                              <Flex justify="between" align="center">
+                        {item.quantity &&
+                          item.quantity >= 1 &&
+                          item.available &&
+                          item.visible && (
+                            <>
+                              <Box display={{ initial: "none", md: "inline" }}>
                                 <Text size="1">{item.name}</Text>
                                 <Text ml="2" size="1">
-                                  {`(+ ${formatMoney(
-                                    item.price * (item.qty || 1),
-                                    "BRL",
-                                    "pt-BR"
+                                  {`(+ ${formattedPrice(
+                                    item.price * (item.qty || 1)
                                   )})`}
                                 </Text>
-                              </Flex>
-                            </Box>
-                            <Box display={{ initial: "none", md: "inline" }}>
-                              <Text size="1">{item.name}</Text>
-                            </Box>
-                          </>
-                        )}
-                        {item.quantity && item.quantity <= 1 && <>{""}</>}
+                              </Box>
+                            </>
+                          )}
                       </Box>
                     ))}
                   </Box>
@@ -77,7 +80,7 @@ const CountItem: React.FC<CountItemProps> = ({
             )}
           </Flex>
           <Text size="2" weight="bold" className="text-lg">
-            {formatMoney(productPrice || 0, "BRL", "pt-BR")}
+            {formattedPrice(productPrice)}
           </Text>
         </Flex>
 

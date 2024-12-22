@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Box, Flex, Text, RadioGroup } from "@radix-ui/themes";
 import { IoIosAdd } from "react-icons/io";
 
-import { ModifierItems } from "@contexts/Products/ProductsProvider";
-
 import MinusOrAdd from "@components/MinusOrAdd/MinusOrAdd";
-import { formatMoney } from "@src/utils/getFormatCurrency";
+
+import { formatMoney } from "@utils/getFormatCurrency";
+
+import { ModifierItems } from "@store/menu/types";
 
 interface ProductCardProps {
   productMaxChoices: number;
@@ -25,6 +26,7 @@ const CustomRadio: React.FC<ProductCardProps> = ({
   modifierItems,
   onPressToMultipleItem,
 }) => {
+  const radioGroupRef = React.useRef<HTMLButtonElement>(null);
   const [openCountOfModifiers, setOpenCountOfModifiers] = useState(false);
   const [amount, setAmount] = useState(0);
 
@@ -40,6 +42,17 @@ const CustomRadio: React.FC<ProductCardProps> = ({
     setAmount(amount - 1);
   };
 
+  const handleAddModifierOnProduct = () => {
+    setOpenCountOfModifiers((prevValue) => !prevValue);
+    AddToAmount();
+  };
+
+  const handleSelectModifierOnRadioGroup = () => {
+    if (modifierItems.maxChoices === 1) {
+      radioGroupRef.current?.click();
+    }
+  };
+
   useEffect(() => {
     if (amount != 0)
       onPressToMultipleItem(modifierId, modifierItems.id, amount);
@@ -49,7 +62,11 @@ const CustomRadio: React.FC<ProductCardProps> = ({
   }, [amount]);
 
   return (
-    <Box m="5">
+    <Box
+      m="5"
+      style={{ cursor: "pointer" }}
+      onClick={handleSelectModifierOnRadioGroup}
+    >
       <Flex direction="row" align="center">
         <Box flexGrow="1">
           <Text as="div" size="2" weight="bold">
@@ -61,19 +78,17 @@ const CustomRadio: React.FC<ProductCardProps> = ({
         </Box>
         <Flex flexGrow="0" justify="center" align="center">
           {modifierItems.maxChoices === 1 && (
-            <RadioGroup.Item value={`${modifierItems.id}`} />
+            <RadioGroup.Item
+              ref={radioGroupRef}
+              value={`${modifierItems.id}`}
+            />
           )}
+
           {modifierItems.maxChoices > 1 && (
             <>
               {!openCountOfModifiers && (
                 <Box width="21px">
-                  <IoIosAdd
-                    size="27"
-                    onClick={() => {
-                      setOpenCountOfModifiers((prevValue) => !prevValue);
-                      AddToAmount();
-                    }}
-                  />
+                  <IoIosAdd size="27" onClick={handleAddModifierOnProduct} />
                 </Box>
               )}
               {openCountOfModifiers && (

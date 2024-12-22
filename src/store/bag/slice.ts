@@ -1,4 +1,3 @@
-// exampleSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BasketItem, BasketState } from "./types";
 import { calculateFullPrice } from "@src/utils/calculateFullPriceOfProduct";
@@ -6,6 +5,7 @@ import { calculateFullPrice } from "@src/utils/calculateFullPriceOfProduct";
 const initialState: BasketState = {
   items: [],
   subtotal: 0,
+  instructions: "",
 };
 
 const basketSlice = createSlice({
@@ -15,179 +15,183 @@ const basketSlice = createSlice({
     setBasket(state, action: PayloadAction<BasketState>) {
       state.items = action.payload.items;
       state.subtotal = action.payload.subtotal;
+      state.instructions = action.payload.instructions;
     },
 
     addItemToBasket(state, action: PayloadAction<BasketItem>) {
-      if (action.payload) {
-        const {
-          id,
-          quantity,
-          product,
-          modifiers: allModifiers,
-        } = action.payload;
+      try {
+        if (action.payload) {
+          const {
+            id,
+            quantity,
+            product,
+            modifiers: allModifiers,
+          } = action.payload;
 
-        const modifiers = allModifiers?.map((modifier) => ({
-          ...modifier,
-          items: modifier.items?.filter(
-            (item) => item.quantity && item.quantity > 0
-          ),
-        }));
+          const modifiers = allModifiers?.map((modifier) => ({
+            ...modifier,
+            items: modifier.items?.filter(
+              (item) => item.quantity && item.quantity > 0
+            ),
+          }));
 
-        let updatedItems;
-        if (id) {
-          //? Payload has id, not see if exist
-          const existingItem = state.items.find((item) => item.id === id);
-          if (existingItem) {
-            //? If exist on backet, then just add the quantity
-            updatedItems = state.items.map((item) =>
-              item.id === id
-                ? {
-                    ...item,
-                    modifiers: modifiers,
-                    quantity: quantity,
-                    fullPrice: calculateFullPrice(
-                      item.product,
-                      modifiers || [],
-                      quantity
-                    ),
-                  }
-                : item
-            );
-          } else {
-            //? If not, then just add the product
-            updatedItems = [
-              ...state.items,
-              {
-                ...action.payload,
-                fullPrice: calculateFullPrice(
-                  product,
-                  modifiers || [],
-                  quantity
-                ),
-                id: Math.floor(Math.random() * 1000),
-                quantity: quantity > 1 ? quantity : 1,
-                modifiers: modifiers,
-              },
-            ];
-          }
-        } else {
-          //? Payload doest have any id,
-
-          const existingItem = state.items.filter(
-            (item) => item.product.id === product.id
-          );
-          //? Check if there ane any product with the same id
-
-          if (existingItem.length >= 1) {
-            //? Check if there is any modifier
-            if ((modifiers?.length ?? 0) > 0) {
-              //? If there is at least one modifier, then try to find the modifier
-
-              //? Get the list of modifiersItemId of modifiers of the new product
-              const modifiersOfPayloadProduct = modifiers?.flatMap(
-                (modifier) => modifier.items?.map((item) => item.id) || []
+          let updatedItems;
+          if (id) {
+            //? Payload has id, not see if exist
+            const existingItem = state.items.find((item) => item.id === id);
+            if (existingItem) {
+              //? If exist on backet, then just add the quantity
+              updatedItems = state.items.map((item) =>
+                item.id === id
+                  ? {
+                      ...item,
+                      modifiers: modifiers,
+                      quantity: quantity,
+                      fullPrice: calculateFullPrice(
+                        item.product,
+                        modifiers || [],
+                        quantity
+                      ),
+                    }
+                  : item
               );
+            } else {
+              //? If not, then just add the product
+              updatedItems = [
+                ...state.items,
+                {
+                  ...action.payload,
+                  fullPrice: calculateFullPrice(
+                    product,
+                    modifiers || [],
+                    quantity
+                  ),
+                  id: Math.floor(Math.random() * 1000),
+                  quantity: quantity > 1 ? quantity : 1,
+                  modifiers: modifiers,
+                },
+              ];
+            }
+          } else {
+            //? Payload doest have any id,
 
-              let isModifierExist;
+            const existingItem = state.items.filter(
+              (item) => item.product.id === product.id
+            );
+            //? Check if there ane any product with the same id
 
-              for (const existingItemSearch of existingItem) {
-                //? the list of modifiersItemId of modifiers of the state that has the same product Id
-                const existingModifierItems =
-                  existingItemSearch.modifiers?.flatMap(
-                    (modifier) => modifier.items?.map((item) => item.id) || []
-                  );
+            if (existingItem.length >= 1) {
+              //? Check if there is any modifier
+              if ((modifiers?.length ?? 0) > 0) {
+                //? If there is at least one modifier, then try to find the modifier
 
-                //? Try to find id there is a product that has the exact same modifiers as the new product
-                if (
-                  JSON.stringify(modifiersOfPayloadProduct) ===
-                  JSON.stringify(existingModifierItems)
-                ) {
-                  isModifierExist = existingItemSearch.id;
-                  break;
+                //? Get the list of modifiersItemId of modifiers of the new product
+                const modifiersOfPayloadProduct = modifiers?.flatMap(
+                  (modifier) => modifier.items?.map((item) => item.id) || []
+                );
+
+                let isModifierExist;
+
+                for (const existingItemSearch of existingItem) {
+                  //? the list of modifiersItemId of modifiers of the state that has the same product Id
+                  const existingModifierItems =
+                    existingItemSearch.modifiers?.flatMap(
+                      (modifier) => modifier.items?.map((item) => item.id) || []
+                    );
+
+                  //? Try to find id there is a product that has the exact same modifiers as the new product
+                  if (
+                    JSON.stringify(modifiersOfPayloadProduct) ===
+                    JSON.stringify(existingModifierItems)
+                  ) {
+                    isModifierExist = existingItemSearch.id;
+                    break;
+                  }
                 }
-              }
-              //? Check if exist or not
-              if (isModifierExist) {
-                //? If exist them add a quantity to the product
+                //? Check if exist or not
+                if (isModifierExist) {
+                  //? If exist them add a quantity to the product
+                  updatedItems = state.items.map((item) => {
+                    if (item.id == isModifierExist) {
+                      return {
+                        ...item,
+                        quantity: item.quantity + quantity,
+                        fullPrice: calculateFullPrice(
+                          item.product,
+                          modifiers || [],
+                          item.quantity + quantity
+                        ),
+                      };
+                    }
+                    return item;
+                  });
+                } else {
+                  updatedItems = [
+                    ...state.items,
+                    {
+                      ...action.payload,
+                      modifiers: modifiers,
+                      fullPrice: calculateFullPrice(
+                        product,
+                        modifiers || [],
+                        quantity
+                      ),
+                      id: Math.floor(Math.random() * 1000),
+                      quantity: quantity > 1 ? quantity : 1,
+                    },
+                  ];
+                }
+              } else {
+                //
+                //? If not exist them find the product with the same id and add quantity
                 updatedItems = state.items.map((item) => {
-                  if (item.id == isModifierExist) {
+                  if (item.product.id == product.id) {
                     return {
                       ...item,
                       quantity: item.quantity + quantity,
+                      modifiers: modifiers,
                       fullPrice: calculateFullPrice(
                         item.product,
                         modifiers || [],
                         item.quantity + quantity
                       ),
                     };
+                  } else {
+                    return item;
                   }
-                  return item;
                 });
-              } else {
-                updatedItems = [
-                  ...state.items,
-                  {
-                    ...action.payload,
-                    modifiers: modifiers,
-                    fullPrice: calculateFullPrice(
-                      product,
-                      modifiers || [],
-                      quantity
-                    ),
-                    id: Math.floor(Math.random() * 1000),
-                    quantity: quantity > 1 ? quantity : 1,
-                  },
-                ];
               }
             } else {
-              //
-              //? If not exist them find the product with the same id and add quantity
-              updatedItems = state.items.map((item) => {
-                if (item.product.id == product.id) {
-                  return {
-                    ...item,
-                    quantity: quantity,
-                    modifiers: modifiers,
-                    fullPrice: calculateFullPrice(
-                      item.product,
-                      modifiers || [],
-                      quantity
-                    ),
-                  };
-                } else {
-                  return item;
-                }
-              });
+              //? If there isn't, then just add the product
+              updatedItems = [
+                ...state.items,
+                {
+                  ...action.payload,
+                  modifiers: modifiers,
+                  fullPrice: calculateFullPrice(
+                    product,
+                    modifiers || [],
+                    quantity
+                  ),
+                  id: Math.floor(Math.random() * 1000),
+                  quantity: quantity > 1 ? quantity : 1,
+                },
+              ];
             }
-          } else {
-            //? If there isn't, then just add the product
-
-            updatedItems = [
-              ...state.items,
-              {
-                ...action.payload,
-                modifiers: modifiers,
-                fullPrice: calculateFullPrice(
-                  product,
-                  modifiers || [],
-                  quantity
-                ),
-                id: Math.floor(Math.random() * 1000),
-                quantity: quantity > 1 ? quantity : 1,
-              },
-            ];
           }
-        }
 
-        const updatedSubtotal = updatedItems.reduce(
-          (sum, item) => sum + (item.fullPrice || 0),
-          0
-        );
-        return {
-          ...state,
-          items: updatedItems,
-          subtotal: updatedSubtotal,
-        };
+          const updatedSubtotal = updatedItems.reduce(
+            (sum, item) => sum + (item.fullPrice || 0),
+            0
+          );
+          return {
+            ...state,
+            items: updatedItems,
+            subtotal: updatedSubtotal,
+          };
+        }
+      } catch (error) {
+        console.error(error);
       }
       return state;
     },
@@ -235,12 +239,21 @@ const basketSlice = createSlice({
       return state;
     },
 
+    changeInstructions(state, action: PayloadAction<string>) {
+      state.instructions = action.payload;
+    },
+
     clearBasket() {
       return initialState;
     },
   },
 });
 
-export const { setBasket, addItemToBasket, removeItemFromBasket, clearBasket } =
-  basketSlice.actions;
+export const {
+  setBasket,
+  addItemToBasket,
+  removeItemFromBasket,
+  changeInstructions,
+  clearBasket,
+} = basketSlice.actions;
 export default basketSlice.reducer;

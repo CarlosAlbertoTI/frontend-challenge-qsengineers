@@ -13,7 +13,16 @@
     "basket_total": "Total",
     "basket_sub_total": "Sub total",
     "backet_checkout": "Checkout Now",
-    "backet_add_extra_instructions": "Add extra instructions"
+    "instructions_title": "Instructions",
+    "backet_add_extra_instructions": "Add extra instructions",
+    "backet_change_extra_instructions": "Change instructions"
+  },
+
+  "Instructions_modal": {
+    "title": "Add extra instructions",
+    "description": "Write anything that we should be aware about",
+    "save_btn": "Save",
+    "cancel_btn": "Cancel"
   },
   "ProductModal": {
     "product_select_choices": "Choose one option"

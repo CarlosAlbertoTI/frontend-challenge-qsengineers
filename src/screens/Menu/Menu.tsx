@@ -1,63 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, ScrollArea } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import Slider from "react-slick";
+import { useSelector } from "react-redux";
+import { useTheme } from "styled-components";
 
 import Basket from "@components/Basket/Basket";
 import Header from "@components/Header/Header";
 import Search from "@components/Search/Search";
 import ListProducts from "@components/ListProducts/ListProducts";
-import MinusOrAdd from "@components/MinusOrAdd/MinusOrAdd";
 import CustomButtonWithBlur from "@components/CustomButtonWithBlur/CustomButton";
+import BasketModal from "@components/Modals/BasketModal/BasketModal";
+import CustomButton from "@src/components/CustomButton/CustomButton";
+import ExtraInstructionsModal from "@components/Modals/ExtraInstructionsModal/ExtraInstructionsModal";
 
-import ContainerFullScreen from "@components/ContainerFullScreen/ContainerFullScreen";
+import { RootState } from "@src/store";
 
-import ProductModal from "@components/Modals/ProductModal/ProductModal";
-import ProductModalContent from "@components/Modals/ProductModal/ProductModal/ProductModalContent";
-
-import { getProductsRequest } from "@services/api/getProductsRequest";
-
-import { useTranslation } from "@hooks/useTranslation";
-
-import { AppDispatch, RootState } from "@src/store";
-import { setMenuValue } from "@store/menu";
-import { addItemToBasket } from "@store/bag";
-import BasicModal from "@src/components/Modals/Basic/BasicModal";
-// import StickyBox from "react-sticky-box";
+import MockMenu from "./MockMenu";
+import { useTranslation } from "@src/hooks/useTranslation";
 
 const MenuScreen: React.FC = () => {
-  const { t } = useTranslation(["Basket"]);
-
   const webSettings = useSelector((state: RootState) => state.webSettings);
   const { items } = useSelector((state: RootState) => state.basket);
 
-  const dispatch = useDispatch<AppDispatch>();
-
+  const { colors } = useTheme();
   const navigate = useNavigate();
+  const { t } = useTranslation(["Basket"]);
 
+  const [searchProductName, setSearchProductName] = useState("");
   const [loadingWebSettings, setLoadingWebSettings] = useState(true);
   const [isBasketVisibleOnMobile, setIsBasketVisibleOnMobile] = useState(false);
-  const [
-    showChooseProductCardOnFullScreen,
-    setShowChooseProductCardOnFullScreen,
-  ] = useState(false);
-  const [searchProductName, setSearchProductName] = useState("");
 
-  const handleAddSelectedProductToBasket = () => {
-    dispatch(
-      addItemToBasket({
-        product: selectedProduct,
-        quantity: amountOfSelectedProduct,
-      })
-    );
-  };
+  const handleShowBasketModal = () =>
+    setIsBasketVisibleOnMobile((prev) => !prev);
 
-  // const handlePlusAmountOfSelectedProduct = () =>
-  //   changeAmountOfSelectProduct(amountOfSelectedProduct + 1);
-  // const handleMinusAmountOfSelectedProduct = () => {
-  //   changeAmountOfSelectProduct(amountOfSelectedProduct - 1);
-  // };
+  const checkIfBasketIsVisibleOnMobile = isBasketVisibleOnMobile
+    ? "none"
+    : "inline";
 
   useEffect(() => {
     setTimeout(() => {
@@ -66,128 +44,118 @@ const MenuScreen: React.FC = () => {
       } else {
         setLoadingWebSettings(false);
       }
-    }, 2000);
+    }, 10);
   }, [webSettings]);
 
   return (
     <Box height="100vh">
+      {loadingWebSettings && <MockMenu />}
       {!loadingWebSettings && (
         <>
-          <Box
-            style={{
-              margin: "0",
-              padding: "0",
-              backgroundColor: webSettings?.webSettings.backgroundColour,
-            }}
-          >
-            {/* <BasicModal
-              isOpen={true}
-              onRequestClose={function (): void {
-                throw new Error("Function not implemented.");
+          <Box>
+            <Box
+              style={{
+                margin: "0",
+                padding: "0",
+                backgroundColor: webSettings?.webSettings.backgroundColour,
               }}
-              contentLabel={""}
-            /> */}
-
-            <ProductModal />
-            <Header />
-
-            <Box width={{ md: "70%" }} m="auto">
-              <Search
-                searchValue={searchProductName}
-                onSearchValue={setSearchProductName}
-              />
-              <Flex
-                p={{ initial: "0", md: "5" }}
-                gap="3"
-                width={{ md: "93%", initial: "100%" }}
-                justify="center"
-                position="relative"
-                align="start"
-                style={{
-                  backgroundColor: "#F8F9FA",
-                  margin: "10px auto 20px auto",
-                  marginTop: "10px",
-                }}
-              >
-                <Box
-                  display={{
-                    initial: isBasketVisibleOnMobile ? "none" : "inline",
-                    md: "inline",
-                  }}
-                  minWidth={{ initial: "100vw", md: "65%" }}
-                  p="5"
-                  flexGrow="2"
+            >
+              <Header />
+              <Box width={{ md: "85%" }} m="auto">
+                <Search
+                  searchValue={searchProductName}
+                  onSearchValue={setSearchProductName}
+                />
+                <Flex
+                  p={{ initial: "0", md: "5" }}
+                  gap="3"
+                  width={{ md: "93%", initial: "100%" }}
+                  justify="center"
+                  position="relative"
+                  align="start"
                   style={{
-                    backgroundColor: "#FFFFFF",
-                    boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.1)",
+                    backgroundColor: colors.main,
+                    margin: "10px auto 20px auto",
+                    marginTop: "10px",
                   }}
                 >
-                  <ListProducts
-                    productNameToBeSearched={searchProductName}
-                    onPressMobile={() =>
-                      setShowChooseProductCardOnFullScreen(
-                        (prevState) => !prevState
-                      )
-                    }
+                  <Box
+                    display={{
+                      initial: checkIfBasketIsVisibleOnMobile,
+                      md: "inline",
+                    }}
+                    minWidth={{ initial: "95vw", md: "65%" }}
+                    p="5"
+                    flexGrow="2"
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.1)",
+                    }}
+                  >
+                    <ListProducts productNameToBeSearched={searchProductName} />
+                  </Box>
+
+                  <Box
+                    position="sticky"
+                    top="20px"
+                    display={{
+                      initial: "none",
+                      md: "inline",
+                    }}
+                    width={"80%"}
+                    height="100%"
+                    minWidth="35%"
+                  >
+                    <Basket />
+                  </Box>
+                </Flex>
+                <Box
+                  style={{
+                    paddingBottom: "130px",
+                  }}
+                  display={{ initial: "block", md: "none" }}
+                  width={{ initial: "90%" }}
+                  m="auto"
+                >
+                  <CustomButton
+                    style={{
+                      border: `1px solid ${colors.main}}`,
+                      borderRadius: "20px",
+                      backgroundColor: "grey",
+                    }}
+                    label={"View Allergic information"}
                   />
                 </Box>
+              </Box>
+            </Box>
 
-                <Box
-                  position="sticky"
-                  top="20px"
-                  display={{
-                    initial: "none",
-                    md: "inline",
-                  }}
-                  width={"80%"}
-                  height="100%"
-                  minWidth="35%"
-                >
-                  <Basket />
-                </Box>
-              </Flex>
+            <Box
+              style={{
+                zIndex: 100,
+              }}
+              position="fixed"
+              bottom="4"
+              width="100%"
+              display={{
+                initial: checkIfBasketIsVisibleOnMobile,
+                md: "none",
+              }}
+            >
+              <CustomButtonWithBlur
+                label={`${t(["basket_title"])} - ${items.length} Item`}
+                hasBlur
+                height="50px"
+                onClick={handleShowBasketModal}
+              />
             </Box>
           </Box>
-
-          <Box
-            style={{
-              zIndex: 100,
-            }}
-            position="fixed"
-            bottom="4"
-            width="100%"
-            display={{
-              initial: isBasketVisibleOnMobile ? "none" : "inline",
-              md: "none",
-            }}
-          >
-            <CustomButtonWithBlur
-              label={`Your Basket - ${items.length} Item`}
-              hasBlur
-              height="50px"
-              onClick={() =>
-                setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
-              }
-            />
-          </Box>
+          <BasketModal
+            isOpenModal={isBasketVisibleOnMobile}
+            setCloseModal={handleShowBasketModal}
+          />
+          <ExtraInstructionsModal />
         </>
-      )}{" "}
-      {/* {isBasketVisibleOnMobile && (
-        <Box display={{ initial: "inline", md: "none" }}>
-          <ContainerFullScreen
-            title={t("Carrinho")}
-            titleType={"text"}
-            onCloseContainer={() =>
-              setIsBasketVisibleOnMobile(!isBasketVisibleOnMobile)
-            }
-            titleBackgroundColor="#fff"
-            backgroundColor="#F8F9FA"
-            buttonTitle={t("backet_checkout")}
-          >
-            <Basket showTitle={false} showBottomButton />
-          </ContainerFullScreen>
-        </Box>
-      )} */}
+      )}
     </Box>
   );
 };

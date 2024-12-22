@@ -1,41 +1,34 @@
 import React from "react";
-import { Box, Button } from "@radix-ui/themes";
-
-import { RootState } from "@src/store";
+import { Box, Button, ButtonProps } from "@radix-ui/themes";
 import { useSelector } from "react-redux";
 
-interface CustomButtonProps {
+import { RootState } from "@src/store";
+
+interface CustomButtonProps extends ButtonProps {
   height?: string;
   width?: string;
-  style?: object;
-  radius?: "small" | "none" | "medium" | "full" | "large";
-  disable: boolean;
-  onClick: () => void;
   label: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
-  onClick,
   label,
-  disable,
-  radius = "none",
-  width = "100%",
   height = "50px",
+  width = "100%",
   style = {},
+  ...props
 }) => {
   const { webSettings } = useSelector((state: RootState) => state.webSettings);
 
   return (
     <Box height={height} width={width}>
       <Button
-        onClick={onClick}
-        disabled={disable}
-        radius={radius}
         style={{
+          cursor: "pointer",
           width: "100%",
           backgroundColor: webSettings.primaryColour,
           ...style,
         }}
+        {...props}
       >
         {label}
       </Button>
