@@ -117,7 +117,10 @@ const productSelectedSlice = createSlice({
         (item) => item.id === id
       );
       if (index !== -1) {
-        state.modifierListOfSelectedProduct[index].qty = qty;
+        state.modifierListOfSelectedProduct[index].items = state.modifierListOfSelectedProduct[index].items.map(item => ({
+          ...item,
+          quantity: qty
+        }));
       }
     },
   },
