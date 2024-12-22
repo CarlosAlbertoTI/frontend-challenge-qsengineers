@@ -14,6 +14,7 @@ interface CustomButtonProps {
   Actions?: JSX.Element[];
   disabled?: boolean;
   hasBlur?: boolean;
+  style?: React.CSSProperties;
 }
 
 const CustomButtonWithBlur: React.FC<CustomButtonProps> = ({
@@ -24,6 +25,7 @@ const CustomButtonWithBlur: React.FC<CustomButtonProps> = ({
   blurColor = "#eee",
   hasActions = false,
   Actions = [],
+  style,
   hasBlur,
 }) => {
   const { webSettings } = useSelector((state: RootState) => state.webSettings);
@@ -99,6 +101,7 @@ const CustomButtonWithBlur: React.FC<CustomButtonProps> = ({
                   radius="full"
                   width="100%"
                   style={{
+                    ...style,
                     backgroundColor: disabled
                       ? colors.main
                       : webSettings.primaryColour,
