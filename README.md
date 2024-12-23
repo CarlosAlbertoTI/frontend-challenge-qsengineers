@@ -5,14 +5,14 @@ This is a react application that will present some restaurant data and it's menu
 ## Table of Contents
 
 1. [Installation and Setup](#installation-and-setup)
-2. [My assumptions](#assumptions)
-3. [Process and choices](#Libs-and-project-choices)
+2. [My Assumptions](#my-assumptions)
+3. [Process and Choices](#process-and-choices)
 
 ## Installation and Setup
 
 Before you begin, make sure you have the following installed on your system:
 
-- **Node.js** (version 16.8 or higher)
+- **Node.js** (version 20 or higher)
 - **npm** (comes with Node.js) or **yarn**
 
 ### Clone the Repository
@@ -61,7 +61,7 @@ You should see the React application running in the browser.
 ### My strategie to code this project
 After reviewing the Figma design, I started planning the steps: what to do first and how long each step would take. I wrote everything down in a notebook to think it through. After some time, I decided to first code the basic structure of the app, then create all the basic components (without any logic). Once that was done, I focused on refactoring them and adding logic and libraries.
 
-### Process and Choices
+### Process and choices
 
 #### Code Stucture 
 
@@ -69,7 +69,7 @@ After reviewing the Figma design, I started planning the steps: what to do first
 `src/`: Contains the source code for your React application.
 - **`components/`**: Stores reusable React components that can be imported and used across different parts of the application.
 - **`hooks/`**: Contains custom React hooks that provide reusable logic for use in components.
-- **`lib/`**: Stores third-party libraries and configs like React Querie.
+- **`lib/`**: Stores third-party libraries and configs like React Query.
 - **`locales/`**: Contains localization files for supporting multiple languages, often used in internationalization (i18n).
 - **`routes/`**: Defines the application's routes and navigation, typically using a library like React Router.
 - **`screens/`**: Houses the main screens or views of your application, where different views are rendered based on routes.
