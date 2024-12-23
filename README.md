@@ -61,7 +61,7 @@ You should see the React application running in the browser.
 ### My strategie to code this project
 After reviewing the Figma design, I started planning the steps: what to do first and how long each step would take. I wrote everything down in a notebook to think it through. After some time, I decided to first code the basic structure of the app, then create all the basic components (without any logic). Once that was done, I focused on refactoring them and adding logic and libraries.
 
-### Process and choices
+## Process and choices
 
 #### Code Stucture 
 
