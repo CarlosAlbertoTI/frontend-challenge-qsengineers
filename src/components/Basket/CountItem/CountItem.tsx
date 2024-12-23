@@ -62,7 +62,7 @@ const CountItem: React.FC<CountItemProps> = ({
                           item.available &&
                           item.visible && (
                             <>
-                              <Box display={{ initial: "none", md: "inline" }}>
+                              <Box>
                                 <Text size="1">{item.name}</Text>
                                 <Text ml="2" size="1">
                                   {`(+ ${formattedPrice(
