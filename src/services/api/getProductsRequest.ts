@@ -1,8 +1,9 @@
 import axiosInstance from "@libs/axios/config";
+import { ProductResponse } from "@store/menu/types";
 
 export const getProductsRequest = async () => {
   try {
-    const { data, status } = await axiosInstance.get("/menu");
+    const { data, status } = await axiosInstance.get<ProductResponse>("/menu");
     if (status === 200) {
       return data;
     }

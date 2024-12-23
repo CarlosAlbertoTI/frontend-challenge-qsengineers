@@ -3,6 +3,7 @@ import { Box, Flex } from "@radix-ui/themes";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { useTheme } from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 
 import Basket from "@components/Basket/Basket";
 import Header from "@components/Header/Header";
@@ -15,8 +16,9 @@ import ExtraInstructionsModal from "@components/Modals/ExtraInstructionsModal/Ex
 
 import { RootState } from "@src/store";
 
+import { useTranslation } from "@hooks/useTranslation";
+
 import MockMenu from "./MockMenu";
-import { useTranslation } from "@src/hooks/useTranslation";
 
 const MenuScreen: React.FC = () => {
   const webSettings = useSelector((state: RootState) => state.webSettings);
@@ -27,30 +29,30 @@ const MenuScreen: React.FC = () => {
   const { t } = useTranslation(["Basket"]);
 
   const [searchProductName, setSearchProductName] = useState("");
-  const [loadingWebSettings, setLoadingWebSettings] = useState(true);
+
   const [isBasketVisibleOnMobile, setIsBasketVisibleOnMobile] = useState(false);
 
   const handleShowBasketModal = () =>
     setIsBasketVisibleOnMobile((prev) => !prev);
+
+  const { isPending } = useQuery({
+    queryKey: ["settings"],
+  });
 
   const checkIfBasketIsVisibleOnMobile = isBasketVisibleOnMobile
     ? "none"
     : "inline";
 
   useEffect(() => {
-    setTimeout(() => {
-      if (webSettings.id === 0) {
-        navigate("/");
-      } else {
-        setLoadingWebSettings(false);
-      }
-    }, 10);
-  }, [webSettings]);
+    if (webSettings.id === 0) {
+      navigate("/");
+    }
+  }, [isPending]);
 
   return (
     <Box height="100vh">
-      {loadingWebSettings && <MockMenu />}
-      {!loadingWebSettings && (
+      {isPending && <MockMenu />}
+      {!isPending && (
         <>
           <Box>
             <Box

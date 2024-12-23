@@ -117,15 +117,14 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardMainComponentProps>(
           </Box>
           <Box flexGrow="0" ml="5">
             {product?.images && product.images.length > 0 && (
-              <Avatar
-                style={{
-                  width: "150px",
-                }}
-                size="7"
-                src={product.images[0]?.image}
-                radius="small"
-                fallback={""}
-              />
+              <Box width={{ initial: "100px", md: "150px" }}>
+                <Avatar
+                  size="7"
+                  src={product.images[0]?.image}
+                  radius="small"
+                  fallback={""}
+                />
+              </Box>
             )}
           </Box>
         </Flex>

@@ -11,7 +11,6 @@ import {
 } from "@radix-ui/themes";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { FaCheckCircle } from "react-icons/fa";
-import { CiImageOff } from "react-icons/ci";
 import { useTheme } from "styled-components";
 
 import CustomButtom from "@components/CustomButtonWithBlur/CustomButton";
@@ -100,7 +99,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
             size={40}
             color="white"
             style={{
-              border: "1px solid black",
               borderRadius: "100%",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
             }}
@@ -129,13 +127,13 @@ const ProductModal: React.FC<ProductModalProps> = ({
               />
             )}
             {!selectedProduct?.images && (
-              <CiImageOff
-                size="30px"
+              <img
+                src={setting.webSettings.bannerImage}
+                alt={selectedProduct?.description}
                 style={{
                   width: "100%",
                   height: "250px",
-                  objectFit: "fill",
-                  borderRadius: "var(--radius-2)",
+                  objectFit: "cover",
                 }}
               />
             )}

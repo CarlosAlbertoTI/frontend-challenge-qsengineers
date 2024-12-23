@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex, Heading, Separator } from "@radix-ui/themes";
-import { IoCloseCircleSharp } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
 import { useTheme } from "styled-components";
 import { useTranslation } from "react-i18next";
 
@@ -65,10 +65,10 @@ const BasketModal: React.FC<BasketModalProps> = ({
       <Modal.Header>
         <Flex direction="row" justify="between" ml="4" mr="4" mt="4">
           <Flex flexGrow="1" direction="row" justify="center" align="center">
-            <Heading ml="7">{t(['basket_title'])}</Heading>
+            <Heading ml="7">{t(["basket_title"])}</Heading>
           </Flex>
           <Box onClick={setCloseModal}>
-            <IoCloseCircleSharp
+            <IoMdClose
               size={40}
               color="black"
               style={{

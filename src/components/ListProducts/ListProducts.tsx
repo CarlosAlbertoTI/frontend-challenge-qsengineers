@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Slider from "react-slick";
-import {
-  Box,
-  Heading,
-  Flex,
-  Avatar,
-  ScrollArea,
-} from "@radix-ui/themes";
+import { Box, Heading, Flex, Avatar, ScrollArea } from "@radix-ui/themes";
+import { useQuery } from "@tanstack/react-query";
 
 import { RootState } from "@src/store";
 import { setMenuValue } from "@store/menu";
@@ -26,7 +21,6 @@ const ListProducts: React.FC<{
 }> = ({ productNameToBeSearched }) => {
   const [showProductModal, setShowProductModal] = useState(false);
 
-  const [loadingProducts, setLoadingProducts] = useState(true);
   const [slideIndex, setSlideIndex] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
 
@@ -37,6 +31,11 @@ const ListProducts: React.FC<{
   const menuProducts = useSelector((state: RootState) => state.menu);
 
   const dispatch = useDispatch();
+
+  const { isPending, isError, data } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProductsRequest,
+  });
 
   const { webSettings } = webSetting;
 
@@ -86,25 +85,18 @@ const ListProducts: React.FC<{
   };
 
   useEffect(() => {
-    setLoadingProducts(true);
-
-    const getProductsOfStore = async () => {
-      const response = await getProductsRequest();
-      if (response) {
-        dispatch(setMenuValue(response));
+    if (!isPending && !isError) {
+      if (data) {
+        dispatch(setMenuValue(data));
       }
-    };
-
-    getProductsOfStore();
-
-    setLoadingProducts(false);
+    }
     return () => {};
-  }, []);
+  }, [isPending]);
 
   return (
     <>
-      {loadingProducts && <MockListOfProducts />}
-      {!loadingProducts && (
+      {isPending && <MockListOfProducts />}
+      {!isPending && (
         <Flex direction="column" justify="start">
           {checkIfSearchIsEmpty && (
             <Box

@@ -1,40 +1,38 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
 import i18next from "i18next";
 import { Container, Flex, Spinner } from "@radix-ui/themes";
 import { useNavigate } from "react-router";
 
-import { getAppSettingsServiceRequest } from "@src/services/api/getAppConfigSettingsRequest";
+import { getAppSettingsServiceRequest } from "@services/api/getAppConfigSettingsRequest";
 
-import { AppDispatch, RootState } from "@src/store";
+import { AppDispatch } from "@src/store";
 import { setAppSettingsValue } from "@store/appSettings";
 
 const LoadingScreen: React.FC = () => {
-  const webSettings = useSelector((state: RootState) => state.webSettings);
   const dispatch = useDispatch<AppDispatch>();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (webSettings.id !== 0) {
-      navigate("/Menu");
-    }
-  }, [webSettings]);
+  const { isPending, isError, data } = useQuery({
+    queryKey: ["settings"],
+    queryFn: getAppSettingsServiceRequest,
+  });
 
   useEffect(() => {
-    const requestAppSettings = async () => {
-      const response = await getAppSettingsServiceRequest();
-      if (response) {
-        dispatch(setAppSettingsValue(response));
-        await i18next.changeLanguage(response.locale);
-        document.title = response.internalName;
+    if (!isPending && !isError) {
+      if (data) {
+        const { locale, internalName } = data;
+
+        dispatch(setAppSettingsValue(data));
+        i18next.changeLanguage(locale);
+        document.title = internalName;
+
+        navigate("/Menu");
       }
-    };
-
-    requestAppSettings();
-
-    return () => {};
-  }, []);
+    }
+  }, [isPending]);
 
   return (
     <Container size="1" height={"100vh"} width={"100vw"}>

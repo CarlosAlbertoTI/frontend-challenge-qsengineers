@@ -118,6 +118,8 @@ const Basket: React.FC<BasketProps> = ({ showTitle = true }) => {
                     <Box ml="-2">
                       <CountItem
                         productName={product.name}
+                        colorOfPlusIcon={webSettings.navBackgroundColour}
+                        colorOfMinusIcon={webSettings.navBackgroundColour}
                         productPrice={(fullPrice && fullPrice) ?? 0}
                         amountProduct={quantity}
                         productAddModifier={modifiers || []}

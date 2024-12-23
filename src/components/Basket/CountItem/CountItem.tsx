@@ -62,14 +62,16 @@ const CountItem: React.FC<CountItemProps> = ({
                           item.available &&
                           item.visible && (
                             <>
-                              <Box>
+                              <Flex justify={{initial:"center", md:"start"}} align={{initial:"center",md:"start"}}>
                                 <Text size="1">{item.name}</Text>
-                                <Text ml="2" size="1">
-                                  {`(+ ${formattedPrice(
-                                    item.price * (item.qty || 1)
-                                  )})`}
-                                </Text>
-                              </Box>
+                                <Box display={{ initial: "block", md: "none" }} style={{marginBottom:"3px"}}>
+                                  <Text ml="2" size="1">
+                                    {`(+ ${formattedPrice(
+                                      item.price * (item.qty || 1)
+                                    )})`}
+                                  </Text>
+                                </Box>
+                              </Flex>
                             </>
                           )}
                       </Box>
