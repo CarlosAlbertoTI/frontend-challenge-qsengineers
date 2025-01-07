@@ -4,7 +4,9 @@ import { AppSettingProps } from "@store/appSettings/types";
 export const getAppSettingsServiceRequest = async () => {
   try {
     const { data, status } = await axiosInstance.get<AppSettingProps>(
-      "/venue/9"
+      "/venue/9",{
+        timeout:10000,
+      }
     );
     if (status === 200) {
       return data;
